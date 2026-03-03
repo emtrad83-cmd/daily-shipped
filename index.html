@@ -529,10 +529,7 @@ const SAMPLE_OPTS = ['Not Offered','Offered','Scheduled','Completed'];
 const SIX_W_OPTS = ['Not Started','In Progress','Complete'];
 const FOLLOWUP_DAYS = {'New Lead':3,'Sampled':2,'6-W Started':2,'6-W Complete':1,'Invited':1,'Joined':7,'Nurturing':5};
 
-const CORE_8 = [
-  {name:'Aaron Aponte',contact:'',mentor:'Evan (Self)',stage:'6-W Started',warmth:'Hot',tension_point:'Comp plans reward top only — wants duplication + fairness. His people earning $500/month minimum.',sample_status:'Completed',six_w_status:'In Progress',last_conversation:"Ask: 'What needs to be structurally in place for your people to consistently earn $500/month?'",notes:'Decision coming soon. Stay calm. Equal footing — assessing fit, not convincing.',is_core:true,reach_out_count:0},
-  {name:'Cynthia Adams McGrath',contact:'',mentor:'Evan (Self)',stage:'Sampled',warmth:'Warm',tension_point:'Chronic low sleep, heavy caregiver load for David, seesaw balance.',sample_status:'Scheduled',six_w_status:'Not Started',last_conversation:"Ask: 'If you found the right help for David, what would that free up for you?'",notes:'Faith-grounded. Sample is the right door, not the business.',is_core:true,reach_out_count:0},
-  {name:'Martha Arriaga',contact:'',mentor:'Evan (Self)',stage:'Sampled',warmth:'Warm',tension_point:'Never getting a break, role reversal grief, survival mode.',sample_status:'Offered',six_w_status:'Not Started',last_conversation:"Ask: 'If you had one predictable break a week, what would that change?'",notes:'Validate once then move. Sample only right now.',is_core:true,reach_out_count:0},
+ break, role reversal grief, survival mode.',sample_status:'Offered',six_w_status:'Not Started',last_conversation:"Ask: 'If you had one predictable break a week, what would that change?'",notes:'Validate once then move. Sample only right now.',is_core:true,reach_out_count:0},
   {name:'Landon Heck',contact:'',mentor:'Evan (Self)',stage:'New Lead',warmth:'Warm',tension_point:'Scaling from solo to team — duplication friction predicted.',sample_status:'Not Offered',six_w_status:'Not Started',last_conversation:"Ask: 'What's been the biggest shift since you moved from solo to leading a team?'",notes:'Do not pitch. Find friction first.',is_core:true,reach_out_count:0},
   {name:'Amanda White',contact:'',mentor:'Evan (Self)',stage:'New Lead',warmth:'Warm',tension_point:'Needs tension refresh — depth is built but not advanced.',sample_status:'Not Offered',six_w_status:'Not Started',last_conversation:"Re-engage: 'Has anything shifted for you recently?'",notes:'Relationship is built. Find what is alive today.',is_core:true,reach_out_count:0},
   {name:'Scott Leitner',contact:'',mentor:'Evan (Self)',stage:'New Lead',warmth:'Cold',tension_point:'Tension not moved to consequence yet.',sample_status:'Not Offered',six_w_status:'Not Started',last_conversation:"Simple re-engage: 'How's that evolving?'",notes:'Short message. Wait for signal.',is_core:true,reach_out_count:0},
@@ -598,44 +595,34 @@ async function callClaudeImg(b64,mime,prompt,sys){
 // ── PROSPECT DB ────────────────────────────────────────────
 async function loadProspects(){
   try{
-    const{data:pData}=await db.from('prospects').select('*').order('follow_up_date',{ascending:true});
+    const{data:pData,error:pErr}=await db.from('prospects').select('*').order('follow_up_date',{ascending:true});
+    if(pErr)throw pErr;
+    prospects=pData||[];
     const{data:cData}=await db.from('prospect_coaching').select('*').order('created_at',{ascending:false});
-    if(pData&&pData.length>0){
-      prospects=pData;
-    } else {
-      // Seed Core 8 on first load
-      await seedCore8();
-    }
     if(cData){
       prospectCoaching={};
       cData.forEach(r=>{if(!prospectCoaching[r.prospect_id])prospectCoaching[r.prospect_id]=[];prospectCoaching[r.prospect_id].push(r)});
     }
   }catch(e){
-    console.log('Pipeline DB not available, using local Core 8');
-    if(prospects.length===0) prospects=CORE_8.map((c,i)=>({...c,id:-(i+1),follow_up_date:getFollowUpDate(c.stage),reach_out_count:0}));
+    console.warn('Pipeline DB not available — create the prospects table in Supabase (see Reminders tab).');
+    prospects=[];
   }
   renderPipeline();
   renderCoachProspectBar();
 }
 
-async function seedCore8(){
-  try{
-    const toInsert=CORE_8.map(c=>({name:c.name,contact:c.contact||'',mentor:c.mentor,stage:c.stage,warmth:c.warmth,tension_point:c.tension_point,sample_status:c.sample_status,six_w_status:c.six_w_status,last_conversation:c.last_conversation,notes:c.notes,is_core:true,reach_out_count:0,follow_up_date:getFollowUpDate(c.stage)}));
-    const{data}=await db.from('prospects').insert(toInsert).select();
-    if(data)prospects=data;
-  }catch(e){prospects=CORE_8.map((c,i)=>({...c,id:-(i+1),follow_up_date:getFollowUpDate(c.stage),reach_out_count:0}))}
-}
-
 async function upsertProspect(p){
   try{
     if(p.id&&p.id>0){
-      await db.from('prospects').upsert({id:p.id,name:p.name,contact:p.contact,mentor:p.mentor,stage:p.stage,warmth:p.warmth,tension_point:p.tension_point||p.tensionPoint,sample_status:p.sample_status||p.sampleStatus,six_w_status:p.six_w_status||p.sixWStatus,last_conversation:p.last_conversation||p.lastConversation,follow_up_date:p.follow_up_date||p.followUpDate,notes:p.notes,reach_out_count:p.reach_out_count||0},{onConflict:'id'});
+      const{data}=await db.from('prospects').update({name:p.name,contact:p.contact||'',mentor:p.mentor||'Evan (Self)',stage:p.stage||'New Lead',warmth:p.warmth||'Warm',tension_point:p.tension_point||'',sample_status:p.sample_status||'Not Offered',six_w_status:p.six_w_status||'Not Started',last_conversation:p.last_conversation||'',follow_up_date:p.follow_up_date||getFollowUpDate(p.stage||'New Lead'),notes:p.notes||'',reach_out_count:p.reach_out_count||0}).eq('id',p.id).select();
+      if(data&&data[0])return data[0];
     }else{
-      const{data}=await db.from('prospects').insert([{name:p.name,contact:p.contact||'',mentor:p.mentor||'Evan (Self)',stage:p.stage||'New Lead',warmth:p.warmth||'Warm',tension_point:p.tension_point||p.tensionPoint||'',sample_status:p.sample_status||p.sampleStatus||'Not Offered',six_w_status:p.six_w_status||p.sixWStatus||'Not Started',last_conversation:p.last_conversation||p.lastConversation||'',follow_up_date:p.follow_up_date||p.followUpDate||getFollowUpDate(p.stage||'New Lead'),notes:p.notes||'',is_core:p.is_core||false,reach_out_count:p.reach_out_count||0}]).select();
+      const{data,error}=await db.from('prospects').insert([{name:p.name,contact:p.contact||'',mentor:p.mentor||'Evan (Self)',stage:p.stage||'New Lead',warmth:p.warmth||'Warm',tension_point:p.tension_point||'',sample_status:p.sample_status||'Not Offered',six_w_status:p.six_w_status||'Not Started',last_conversation:p.last_conversation||'',follow_up_date:p.follow_up_date||getFollowUpDate(p.stage||'New Lead'),notes:p.notes||'',is_core:false,reach_out_count:p.reach_out_count||0}]).select();
+      if(error)throw error;
       if(data&&data[0])return data[0];
     }
-  }catch(e){console.log('DB upsert failed')}
-  return p;
+  }catch(e){console.warn('DB upsert failed:',e.message)}
+  return null;
 }
 
 async function saveCoachingEntry(prospectId,result){
@@ -665,6 +652,7 @@ async function ensureProspectExists(name){
   const newP={name:trimmed,contact:'',mentor:'Evan (Self)',stage:'New Lead',warmth:'Warm',tension_point:'',sample_status:'Not Offered',six_w_status:'Not Started',last_conversation:'',notes:'',is_core:false,reach_out_count:1,follow_up_date:getFollowUpDate('New Lead')};
   const saved=await upsertProspect(newP);
   prospects.push(saved||{...newP,id:Date.now()});
+  renderPipeline();renderCoachProspectBar();
   showToast(`${trimmed} added to Pipeline`);
 }
 
@@ -900,7 +888,12 @@ async function saveProspectForm(editId){
     if(updated){selectedProspectId=editId;renderProspectDetail(updated)}
   }else{
     const saved=await upsertProspect(prospectData);
-    prospects.push(saved||{...prospectData,id:Date.now()});
+    if(saved&&saved.id){
+      prospects.push(saved);
+    }else{
+      // DB not available — use temp local id
+      prospects.push({...prospectData,id:Date.now()});
+    }
     showToast('Prospect added');
     selectedProspectId=null;$('prospectDetail').innerHTML='';
   }
