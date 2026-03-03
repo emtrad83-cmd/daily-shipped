@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daily Shipped</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root {
     --bg: #0d0f0e;
@@ -34,7 +35,6 @@
     line-height: 1.6;
   }
 
-  /* Grain overlay */
   body::before {
     content: '';
     position: fixed;
@@ -45,13 +45,8 @@
     opacity: 0.4;
   }
 
-  .app {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 24px 20px 80px;
-  }
+  .app { max-width: 780px; margin: 0 auto; padding: 24px 20px 80px; }
 
-  /* Header */
   .header {
     display: flex;
     align-items: flex-start;
@@ -66,7 +61,6 @@
     font-weight: 900;
     letter-spacing: -0.02em;
     line-height: 1;
-    color: var(--text);
   }
   .header-left h1 span { color: var(--accent); }
   .header-left p {
@@ -77,6 +71,7 @@
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
   .streak-badge {
     background: var(--surface2);
     border: 1px solid var(--border);
@@ -100,8 +95,26 @@
     letter-spacing: 0.08em;
     margin-top: 2px;
   }
+  .sync-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text3);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .sync-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--text3);
+    transition: background 0.3s;
+  }
+  .sync-dot.synced { background: var(--accent); }
+  .sync-dot.syncing { background: var(--accent3); animation: pulse 1s infinite; }
+  .sync-dot.error { background: var(--unshipped); }
 
-  /* Nav Tabs */
   .nav {
     display: flex;
     gap: 4px;
@@ -125,14 +138,9 @@
     cursor: pointer;
     transition: all 0.2s;
   }
-  .nav button.active {
-    background: var(--surface3);
-    color: var(--accent);
-    border: 1px solid var(--border);
-  }
+  .nav button.active { background: var(--surface3); color: var(--accent); border: 1px solid var(--border); }
   .nav button:hover:not(.active) { color: var(--text); }
 
-  /* Cards */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -151,25 +159,13 @@
     align-items: center;
     gap: 8px;
   }
-  .card-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+  .card-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  /* Date header */
-  .date-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
   .date-display {
     font-family: 'Playfair Display', serif;
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--text);
+    margin-bottom: 4px;
   }
   .date-sub {
     font-family: 'DM Mono', monospace;
@@ -177,9 +173,21 @@
     color: var(--text2);
     text-transform: uppercase;
     letter-spacing: 0.06em;
+    margin-bottom: 16px;
   }
 
-  /* Checkbox items */
+  .intro-formula {
+    background: rgba(184,255,87,0.05);
+    border: 1px solid rgba(184,255,87,0.15);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
   .check-group { display: flex; flex-direction: column; gap: 10px; }
   .check-item {
     display: flex;
@@ -195,8 +203,7 @@
   .check-item.checked { background: rgba(184,255,87,0.05); border-color: rgba(184,255,87,0.15); }
   .check-item input[type=checkbox] { display: none; }
   .checkmark {
-    width: 20px;
-    height: 20px;
+    width: 20px; height: 20px;
     border: 1.5px solid var(--border);
     border-radius: 5px;
     flex-shrink: 0;
@@ -207,23 +214,19 @@
     transition: all 0.15s;
     background: var(--surface2);
   }
-  .check-item.checked .checkmark {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
+  .check-item.checked .checkmark { background: var(--accent); border-color: var(--accent); }
   .checkmark svg { display: none; }
   .check-item.checked .checkmark svg { display: block; }
   .check-label { color: var(--text2); font-size: 0.9rem; line-height: 1.4; }
   .check-item.checked .check-label { color: var(--text); }
 
-  /* Text inputs */
-  .field-group { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
   .field-label {
     font-family: 'DM Mono', monospace;
     font-size: 0.72rem;
     color: var(--text2);
     text-transform: uppercase;
     letter-spacing: 0.06em;
+    margin-bottom: 8px;
   }
   .text-input, textarea {
     background: var(--surface2);
@@ -241,18 +244,10 @@
   .text-input:focus, textarea:focus { border-color: var(--accent); }
   textarea { min-height: 80px; }
 
-  /* Reach-out inputs */
   .reach-outs { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
   .reach-out-row { display: flex; gap: 8px; align-items: center; }
-  .reach-out-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--text3);
-    width: 18px;
-    flex-shrink: 0;
-  }
+  .reach-out-num { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text3); width: 18px; flex-shrink: 0; }
 
-  /* Stage pills */
   .stage-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
   .stage-pill {
     padding: 6px 14px;
@@ -269,9 +264,7 @@
   .stage-pill:hover { border-color: var(--accent2); color: var(--accent2); }
   .stage-pill.active { background: rgba(87,255,184,0.1); border-color: var(--accent2); color: var(--accent2); }
 
-  /* People log */
   .people-log { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-  .person-row { display: flex; gap: 8px; }
   .add-person-btn {
     background: transparent;
     border: 1px dashed var(--border);
@@ -288,12 +281,7 @@
   }
   .add-person-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* Shipped decision */
-  .shipped-row {
-    display: flex;
-    gap: 12px;
-    margin-top: 4px;
-  }
+  .shipped-row { display: flex; gap: 12px; margin-top: 4px; }
   .shipped-btn {
     flex: 1;
     padding: 14px;
@@ -306,20 +294,10 @@
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
-    letter-spacing: 0.02em;
   }
-  .shipped-btn.yes:hover, .shipped-btn.yes.active {
-    background: rgba(184,255,87,0.1);
-    border-color: var(--shipped);
-    color: var(--shipped);
-  }
-  .shipped-btn.no:hover, .shipped-btn.no.active {
-    background: rgba(255,87,87,0.1);
-    border-color: var(--unshipped);
-    color: var(--unshipped);
-  }
+  .shipped-btn.yes:hover, .shipped-btn.yes.active { background: rgba(184,255,87,0.1); border-color: var(--shipped); color: var(--shipped); }
+  .shipped-btn.no:hover, .shipped-btn.no.active { background: rgba(255,87,87,0.1); border-color: var(--unshipped); color: var(--unshipped); }
 
-  /* Submit button */
   .submit-btn {
     width: 100%;
     padding: 16px;
@@ -334,13 +312,12 @@
     letter-spacing: 0.1em;
     cursor: pointer;
     transition: all 0.2s;
-    margin-top: 8px;
+    margin-top: 12px;
   }
   .submit-btn:hover { background: #ccff77; transform: translateY(-1px); }
   .submit-btn:active { transform: translateY(0); }
   .submit-btn:disabled { background: var(--surface3); color: var(--text3); cursor: not-allowed; transform: none; }
 
-  /* AI Coach Response */
   .ai-response {
     background: var(--surface2);
     border: 1px solid rgba(184,255,87,0.2);
@@ -361,33 +338,18 @@
     align-items: center;
     gap: 8px;
   }
-  .ai-dot {
-    width: 6px; height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: pulse 1.5s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-  .ai-text {
-    color: var(--text);
-    font-size: 0.9rem;
-    line-height: 1.7;
-    white-space: pre-wrap;
-  }
+  .ai-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .ai-text { color: var(--text); font-size: 0.9rem; line-height: 1.7; white-space: pre-wrap; }
 
-  /* Heatmap */
-  .heatmap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    margin-top: 8px;
-  }
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; text-align: center; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--accent); line-height: 1; }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text2); margin-top: 4px; }
+
+  .heatmap { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
   .heatmap-day {
-    width: 22px;
-    height: 22px;
+    width: 22px; height: 22px;
     border-radius: 4px;
     background: var(--surface2);
     border: 1px solid var(--border);
@@ -398,20 +360,9 @@
   .heatmap-day:hover { transform: scale(1.2); z-index: 2; }
   .heatmap-day.shipped { background: var(--accent); border-color: var(--accent); }
   .heatmap-day.not-shipped { background: rgba(255,87,87,0.3); border-color: rgba(255,87,87,0.4); }
-  .heatmap-legend {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 12px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--text3);
-  }
-  .legend-dot {
-    width: 14px; height: 14px; border-radius: 3px;
-  }
+  .heatmap-legend { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--text3); }
+  .legend-dot { width: 14px; height: 14px; border-radius: 3px; }
 
-  /* History list */
   .history-item {
     background: var(--surface2);
     border: 1px solid var(--border);
@@ -422,59 +373,14 @@
     transition: all 0.15s;
   }
   .history-item:hover { border-color: var(--accent); }
-  .history-item-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .history-date {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.78rem;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-  .shipped-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-weight: 500;
-  }
+  .history-item-header { display: flex; justify-content: space-between; align-items: center; }
+  .history-date { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; }
+  .shipped-tag { font-family: 'DM Mono', monospace; font-size: 0.72rem; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
   .shipped-tag.yes { background: rgba(184,255,87,0.15); color: var(--accent); }
   .shipped-tag.no { background: rgba(255,87,87,0.15); color: var(--unshipped); }
+  .history-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+  .history-item.open .history-detail { display: block; }
 
-  /* Stats row */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px;
-    text-align: center;
-  }
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .stat-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text2);
-    margin-top: 4px;
-  }
-
-  /* Review section */
   .review-btn {
     width: 100%;
     padding: 14px;
@@ -493,7 +399,6 @@
   .review-btn:hover { border-color: var(--accent2); color: var(--accent2); }
   .review-btn.monthly:hover { border-color: var(--accent3); color: var(--accent3); }
 
-  /* Reminder box */
   .reminder-box {
     background: rgba(255,213,87,0.05);
     border: 1px solid rgba(255,213,87,0.2);
@@ -501,140 +406,86 @@
     padding: 16px;
     margin-bottom: 14px;
   }
-  .reminder-box h3 {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--accent3);
-    margin-bottom: 10px;
-  }
-  .reminder-box p {
-    font-size: 0.85rem;
-    color: var(--text2);
-    line-height: 1.6;
-    margin-bottom: 8px;
-  }
-  .reminder-box code {
-    background: var(--surface2);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--accent3);
-  }
+  .reminder-box h3 { font-family: 'DM Mono', monospace; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent3); margin-bottom: 10px; }
+  .reminder-box p { font-size: 0.85rem; color: var(--text2); line-height: 1.6; margin-bottom: 8px; }
+  .reminder-box code { background: var(--surface2); padding: 2px 6px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--accent3); }
 
-  /* Loading spinner */
-  .loading {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text2);
-    font-size: 0.85rem;
-  }
-  .spinner {
-    width: 16px; height: 16px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-  }
+  .loading { display: inline-flex; align-items: center; gap: 8px; color: var(--text2); font-size: 0.85rem; }
+  .spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Tab panels */
   .panel { display: none; }
   .panel.active { display: block; }
-
-  /* Utility */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
   .mt-8 { margin-top: 8px; }
   .mt-12 { margin-top: 12px; }
-  .section-gap { height: 8px; }
-  .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
 
-  .intro-formula {
-    background: rgba(184,255,87,0.05);
-    border: 1px solid rgba(184,255,87,0.15);
-    border-radius: 8px;
-    padding: 12px 16px;
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--surface2);
+    border: 1px solid var(--accent);
+    color: var(--accent);
     font-family: 'DM Mono', monospace;
     font-size: 0.78rem;
-    color: var(--accent);
-    margin-bottom: 16px;
-    line-height: 1.5;
+    padding: 10px 20px;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+    z-index: 10000;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
-
-  /* Expand history item */
-  .history-detail {
-    display: none;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid var(--border);
-    font-size: 0.85rem;
-    color: var(--text2);
-    line-height: 1.6;
-  }
-  .history-item.open .history-detail { display: block; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 
   @media (max-width: 480px) {
     .stats-row { grid-template-columns: 1fr 1fr; }
     .header { flex-direction: column; gap: 16px; }
+    .header-right { align-items: flex-start; flex-direction: row; }
   }
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- Header -->
   <div class="header">
     <div class="header-left">
       <h1>Daily <span>Shipped</span></h1>
       <p id="todayDate">Loading...</p>
     </div>
-    <div class="streak-badge">
-      <div class="num" id="streakNum">0</div>
-      <div class="label">Day Streak</div>
+    <div class="header-right">
+      <div class="streak-badge">
+        <div class="num" id="streakNum">—</div>
+        <div class="label">Day Streak</div>
+      </div>
+      <div class="sync-status">
+        <div class="sync-dot syncing" id="syncDot"></div>
+        <span id="syncLabel">Connecting...</span>
+      </div>
     </div>
   </div>
 
-  <!-- Nav -->
   <div class="nav">
-    <button class="active" onclick="showTab('log')">Today</button>
-    <button onclick="showTab('history')">History</button>
-    <button onclick="showTab('reviews')">Reviews</button>
-    <button onclick="showTab('reminders')">Reminders</button>
+    <button class="active" onclick="showTab('log', this)">Today</button>
+    <button onclick="showTab('history', this)">History</button>
+    <button onclick="showTab('reviews', this)">Reviews</button>
+    <button onclick="showTab('reminders', this)">Reminders</button>
   </div>
 
   <!-- TAB: LOG -->
   <div id="tab-log" class="panel active">
-
-    <!-- Stats row -->
     <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-num" id="statTotal">0</div>
-        <div class="stat-label">Days Logged</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="statShipped">0</div>
-        <div class="stat-label">Days Shipped</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="statRate">—</div>
-        <div class="stat-label">Ship Rate</div>
-      </div>
+      <div class="stat-card"><div class="stat-num" id="statTotal">—</div><div class="stat-label">Days Logged</div></div>
+      <div class="stat-card"><div class="stat-num" id="statShipped">—</div><div class="stat-label">Days Shipped</div></div>
+      <div class="stat-card"><div class="stat-num" id="statRate">—</div><div class="stat-label">Ship Rate</div></div>
     </div>
 
-    <!-- Log Form -->
     <div class="card">
-      <div class="date-header">
-        <div>
-          <div class="date-display" id="logDateDisplay"></div>
-          <div class="date-sub">GU Introduction Focus</div>
-        </div>
-      </div>
-
+      <div class="date-display" id="logDateDisplay"></div>
+      <div class="date-sub">GU Introduction Focus</div>
       <div class="intro-formula">➡️ GU Shipped = Business Opened + 1 GU Introduction action</div>
 
-      <!-- Business Momentum -->
       <div class="card-title">GU — Business Momentum</div>
       <div class="check-group">
         <label class="check-item" onclick="toggleCheck(this)">
@@ -659,10 +510,9 @@
         </label>
       </div>
 
-      <!-- 5 Reach-Outs -->
       <hr class="divider">
       <div class="card-title">5 Reach-Outs Sent</div>
-      <div class="reach-outs" id="reachOutContainer">
+      <div class="reach-outs">
         <div class="reach-out-row"><span class="reach-out-num">1.</span><input class="text-input" placeholder="Who did you reach out to?" name="reach1"></div>
         <div class="reach-out-row"><span class="reach-out-num">2.</span><input class="text-input" placeholder="Who did you reach out to?" name="reach2"></div>
         <div class="reach-out-row"><span class="reach-out-num">3.</span><input class="text-input" placeholder="Who did you reach out to?" name="reach3"></div>
@@ -670,7 +520,6 @@
         <div class="reach-out-row"><span class="reach-out-num">5.</span><input class="text-input" placeholder="Who did you reach out to?" name="reach5"></div>
       </div>
 
-      <!-- GU Quick Log -->
       <hr class="divider">
       <div class="card-title">GU Quick Log</div>
       <div class="field-label">People Introduced to GU Today</div>
@@ -689,7 +538,6 @@
         <div class="stage-pill" onclick="toggleStage(this)" data-stage="Giver">Giver</div>
       </div>
 
-      <!-- Fitness -->
       <hr class="divider">
       <div class="card-title">Fitness — Capacity Protection</div>
       <div class="check-group">
@@ -710,13 +558,11 @@
         </label>
       </div>
 
-      <!-- Reflection -->
       <hr class="divider">
       <div class="card-title">Reflection</div>
       <div class="field-label">How did I help someone experience GU today?</div>
       <textarea name="reflection" class="mt-8" placeholder="Write your reflection here..."></textarea>
 
-      <!-- Day Shipped? -->
       <hr class="divider">
       <div class="card-title">Day Shipped?</div>
       <div class="shipped-row">
@@ -727,21 +573,16 @@
       <button class="submit-btn mt-12" id="submitBtn" onclick="submitLog()">Submit & Get Coaching Feedback</button>
     </div>
 
-    <!-- AI Coach Response -->
     <div class="ai-response" id="aiCoachResponse">
-      <div class="ai-response-header">
-        <div class="ai-dot"></div>
-        Your Coach
-      </div>
+      <div class="ai-response-header"><div class="ai-dot"></div>Your Coach</div>
       <div class="ai-text" id="aiCoachText"></div>
     </div>
-
   </div>
 
   <!-- TAB: HISTORY -->
   <div id="tab-history" class="panel">
     <div class="card">
-      <div class="card-title">Shipped Heatmap</div>
+      <div class="card-title">90-Day Shipped Heatmap</div>
       <div class="heatmap" id="heatmap"></div>
       <div class="heatmap-legend">
         <div class="legend-dot" style="background:var(--accent)"></div> Shipped
@@ -757,10 +598,7 @@
     <button class="review-btn" onclick="generateWeeklyReview()">📋 Generate This Week's Mentor Review</button>
     <button class="review-btn monthly" onclick="generateMonthlyReview()">📊 Generate This Month's Review</button>
     <div class="ai-response" id="aiReviewResponse" style="margin-top:0">
-      <div class="ai-response-header">
-        <div class="ai-dot"></div>
-        Your Mentor
-      </div>
+      <div class="ai-response-header"><div class="ai-dot"></div>Your Mentor</div>
       <div class="ai-text" id="aiReviewText"></div>
     </div>
   </div>
@@ -769,80 +607,154 @@
   <div id="tab-reminders" class="panel">
     <div class="reminder-box">
       <h3>⏰ Daily Reminder — Mon–Fri at 7:00 PM</h3>
-      <p>Since this is a web app, push notifications require a bit of setup. Here are three easy options:</p>
-      <p><strong style="color:var(--text)">Option 1 — iPhone/Android Alarm:</strong> Set a recurring alarm labeled <code>Daily Shipped Log</code> at <code>7:00 PM</code>, Mon–Fri.</p>
-      <p><strong style="color:var(--text)">Option 2 — Google Calendar:</strong> Create a recurring event "Fill Daily Shipped" at 7 PM, Mon–Fri, with a notification.</p>
-      <p><strong style="color:var(--text)">Option 3 — Add to Home Screen:</strong> In Safari or Chrome, tap Share → "Add to Home Screen". Then use a shortcut/automation to open the app at 7 PM.</p>
+      <p>Set a recurring alarm or calendar event labeled <code>Daily Shipped Log</code> at <code>7:00 PM</code>, Mon–Fri.</p>
+      <p><strong style="color:var(--text)">iPhone:</strong> Settings → Focus → or just set a repeating Clock alarm. Label it "Daily Shipped."</p>
+      <p><strong style="color:var(--text)">Google Calendar:</strong> Create a recurring Mon–Fri event at 7 PM with a notification. Add your app URL to the event description.</p>
     </div>
     <div class="reminder-box" style="border-color:rgba(87,255,184,0.2);background:rgba(87,255,184,0.03)">
-      <h3 style="color:var(--accent2)">📅 Weekly Mentor Review — Sunday at 8:00 AM</h3>
-      <p>Set a Sunday 8:00 AM reminder labeled <code>Weekly GU Review</code>. Open the app, go to the <strong style="color:var(--text)">Reviews</strong> tab, and tap <strong style="color:var(--text)">"Generate This Week's Mentor Review"</strong> to get your full Sunday debrief.</p>
+      <h3 style="color:var(--accent2)">📅 Weekly Review — Sunday at 8:00 AM</h3>
+      <p>Set a Sunday 8 AM reminder. Open the app → <strong style="color:var(--text)">Reviews tab</strong> → tap <strong style="color:var(--text)">"Generate This Week's Mentor Review."</strong></p>
+    </div>
+    <div class="reminder-box">
+      <h3>📈 Monthly Review</h3>
+      <p>On the last day of each month → <strong style="color:var(--text)">Reviews tab</strong> → <strong style="color:var(--text)">"Generate This Month's Review."</strong></p>
     </div>
     <div class="reminder-box" style="border-color:rgba(184,255,87,0.2);background:rgba(184,255,87,0.03)">
-      <h3>📈 Monthly Review</h3>
-      <p>On the last day of each month, open the <strong style="color:var(--text)">Reviews</strong> tab and tap <strong style="color:var(--text)">"Generate This Month's Review"</strong> for your full trends, strengths, and growth opportunities.</p>
+      <h3>📱 Add to Home Screen</h3>
+      <p><strong style="color:var(--text)">iPhone/iPad (Safari):</strong> Tap the Share button → "Add to Home Screen" → tap Add.</p>
+      <p><strong style="color:var(--text)">Android (Chrome):</strong> Tap ⋮ menu → "Add to Home Screen."</p>
+      <p>Once added, it opens like a native app — full screen, no browser bar.</p>
     </div>
   </div>
 
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-// ============ STATE & STORAGE ============
+// ============ SUPABASE INIT ============
+const { createClient } = supabase;
+const db = createClient(
+  'https://kkerejaviuqnaalbbnfs.supabase.co',
+  'sb_publishable_muGWu5avi1fJm90mSmoPIA_-9WRaqxD'
+);
+
 let logs = [];
 let currentShipped = null;
 let personCount = 2;
 
-async function loadLogs() {
-  try {
-    const res = await window.storage.get('shipped_logs');
-    if (res) logs = JSON.parse(res.value);
-  } catch(e) { logs = []; }
-  renderStats();
-  renderHeatmap();
-  renderHistory();
+// ============ SYNC STATUS ============
+function setSyncStatus(state, label) {
+  const dot = document.getElementById('syncDot');
+  const lbl = document.getElementById('syncLabel');
+  dot.className = 'sync-dot ' + state;
+  lbl.textContent = label;
 }
 
-async function saveLogs() {
+// ============ TOAST ============
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ============ LOAD FROM SUPABASE ============
+async function loadLogs() {
+  setSyncStatus('syncing', 'Syncing...');
   try {
-    await window.storage.set('shipped_logs', JSON.stringify(logs));
-  } catch(e) { console.error('Save failed', e); }
+    const { data, error } = await db.from('shipped_logs').select('*').order('date', { ascending: false });
+    if (error) throw error;
+    logs = data || [];
+    setSyncStatus('synced', 'Synced');
+    renderStats();
+    renderHeatmap();
+    renderHistory();
+    prefillTodayIfExists();
+  } catch(e) {
+    setSyncStatus('error', 'Offline');
+    console.error(e);
+  }
+}
+
+// ============ PREFILL TODAY ============
+function prefillTodayIfExists() {
+  const today = new Date().toISOString().split('T')[0];
+  const existing = logs.find(l => l.date === today);
+  if (!existing) return;
+
+  const setCheck = (name, val) => {
+    const el = document.querySelector(`input[name="${name}"]`);
+    if (el && val) { el.checked = true; el.closest('.check-item')?.classList.add('checked'); }
+  };
+
+  setCheck('business_opened', existing.business_opened);
+  setCheck('gu_intro_made', existing.gu_intro_made);
+  setCheck('gu_exp_advanced', existing.gu_exp_advanced);
+  setCheck('business_closed', existing.business_closed);
+  setCheck('strength', existing.strength);
+  setCheck('movement', existing.movement);
+  setCheck('rest', existing.rest);
+
+  (existing.reach_outs || []).forEach((v, i) => {
+    const inp = document.querySelector(`input[name="reach${i+1}"]`);
+    if (inp) inp.value = v;
+  });
+
+  const peopleLog = document.getElementById('peopleLog');
+  peopleLog.innerHTML = '';
+  const people = existing.people_introduced || ['', ''];
+  people.forEach((p, i) => {
+    personCount = i + 1;
+    const div = document.createElement('div');
+    div.className = 'person-row';
+    div.innerHTML = `<input class="text-input" placeholder="Name + context" name="person${i+1}" value="${p}">`;
+    peopleLog.appendChild(div);
+  });
+  if (people.length === 0) { addPerson(); addPerson(); }
+
+  (existing.stages || []).forEach(s => {
+    const pill = document.querySelector(`.stage-pill[data-stage="${s}"]`);
+    if (pill) pill.classList.add('active');
+  });
+
+  const reflection = document.querySelector('textarea[name="reflection"]');
+  if (reflection) reflection.value = existing.reflection || '';
+
+  if (existing.shipped) setShipped(existing.shipped);
 }
 
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', () => {
   const now = new Date();
-  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   document.getElementById('logDateDisplay').textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
   document.getElementById('todayDate').textContent = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase();
   loadLogs();
 });
 
 // ============ TAB NAV ============
-function showTab(tab) {
+function showTab(tab, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
-  event.currentTarget.classList.add('active');
+  btn.classList.add('active');
   if (tab === 'history') { renderHeatmap(); renderHistory(); }
 }
 
-// ============ CHECKBOXES ============
+// ============ FORM HELPERS ============
 function toggleCheck(el) {
   el.classList.toggle('checked');
   el.querySelector('input').checked = el.classList.contains('checked');
 }
 
-// ============ STAGE PILLS ============
 function toggleStage(el) { el.classList.toggle('active'); }
 
-// ============ SHIPPED TOGGLE ============
 function setShipped(val) {
   currentShipped = val;
   document.getElementById('btnYes').classList.toggle('active', val === 'YES');
   document.getElementById('btnNo').classList.toggle('active', val === 'NO');
 }
 
-// ============ ADD PERSON ============
 function addPerson() {
   personCount++;
   const div = document.createElement('div');
@@ -853,19 +765,14 @@ function addPerson() {
 
 // ============ COLLECT FORM DATA ============
 function collectFormData() {
-  const getChecked = (name) => !!document.querySelector(`input[name="${name}"]`)?.checked;
-  const getVal = (name) => document.querySelector(`input[name="${name}"], textarea[name="${name}"]`)?.value?.trim() || '';
+  const getChecked = name => !!document.querySelector(`input[name="${name}"]`)?.checked;
+  const getVal = name => document.querySelector(`input[name="${name}"], textarea[name="${name}"]`)?.value?.trim() || '';
 
   const reachOuts = [];
-  for (let i = 1; i <= 5; i++) {
-    const v = getVal(`reach${i}`);
-    if (v) reachOuts.push(v);
-  }
+  for (let i = 1; i <= 5; i++) { const v = getVal(`reach${i}`); if (v) reachOuts.push(v); }
 
   const people = [];
-  document.querySelectorAll('#peopleLog input').forEach(inp => {
-    if (inp.value.trim()) people.push(inp.value.trim());
-  });
+  document.querySelectorAll('#peopleLog input').forEach(inp => { if (inp.value.trim()) people.push(inp.value.trim()); });
 
   const stages = [];
   document.querySelectorAll('.stage-pill.active').forEach(p => stages.push(p.dataset.stage));
@@ -878,7 +785,7 @@ function collectFormData() {
     business_closed: getChecked('business_closed'),
     reach_outs: reachOuts,
     people_introduced: people,
-    stages: stages,
+    stages,
     strength: getChecked('strength'),
     movement: getChecked('movement'),
     rest: getChecked('rest'),
@@ -890,75 +797,74 @@ function collectFormData() {
 // ============ SUBMIT LOG ============
 async function submitLog() {
   const data = collectFormData();
-  if (!data.shipped) { alert('Please mark whether your day was shipped (YES or NO).'); return; }
+  if (!data.shipped) { showToast('Mark YES or NO first'); return; }
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
-  btn.textContent = 'Saving & Getting Feedback...';
+  btn.textContent = 'Saving...';
+  setSyncStatus('syncing', 'Saving...');
 
-  // Remove existing log for today if any
-  logs = logs.filter(l => l.date !== data.date);
-  logs.push(data);
-  logs.sort((a, b) => b.date.localeCompare(a.date));
-  await saveLogs();
-  renderStats();
-  renderHeatmap();
+  try {
+    const { error } = await db.from('shipped_logs').upsert(data, { onConflict: 'date' });
+    if (error) throw error;
+    setSyncStatus('synced', 'Saved ✓');
+    showToast('Log saved & synced!');
+    await loadLogs();
+  } catch(e) {
+    setSyncStatus('error', 'Save failed');
+    showToast('Save failed — check connection');
+    btn.disabled = false;
+    btn.textContent = 'Submit & Get Coaching Feedback';
+    return;
+  }
 
-  // Get AI coaching
+  // AI coaching
   const coachBox = document.getElementById('aiCoachResponse');
   const coachText = document.getElementById('aiCoachText');
   coachBox.classList.add('visible');
   coachText.innerHTML = '<div class="loading"><div class="spinner"></div> Your coach is reviewing your day...</div>';
+  btn.textContent = 'Update & Refresh Coaching';
+  btn.disabled = false;
 
   try {
-    const prompt = buildCoachPrompt(data);
-    const reply = await callClaude(prompt);
-    coachText.textContent = reply;
+    coachText.textContent = await callClaude(buildCoachPrompt(data));
   } catch(e) {
-    coachText.textContent = 'Could not connect to coach. Your log has been saved. Try the Reviews tab for analysis.';
+    coachText.textContent = 'Your log is saved! Coach feedback unavailable right now — try again shortly.';
   }
 
-  btn.disabled = false;
-  btn.textContent = 'Update & Refresh Coaching';
   coachBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-// ============ PROMPT BUILDERS ============
+// ============ PROMPTS ============
 function buildCoachPrompt(data) {
-  return `You are an encouraging, direct, and insightful coach for someone running a GU (Genki Unlimited/network wellness) business. They just filled out their Daily Shipped log. Act as their coach: give specific strengths from today's data, notice any patterns, and offer 1-2 concrete opportunities for improvement. Be warm but honest. Keep it to 3-4 paragraphs. Do not use bullet points — speak to them like a real coach would.
+  return `You are an encouraging, direct, and insightful coach for someone building a GU (wellness/network) business. They just filled out their Daily Shipped log. Give specific strengths from today's data, notice any patterns, and offer 1-2 concrete opportunities for improvement. Be warm but honest. Keep it to 3-4 paragraphs. No bullet points — speak like a real coach would.
 
-Today's Daily Shipped Log:
-Date: ${data.date}
+Today's Log (${data.date}):
 Business Opened: ${data.business_opened ? 'YES' : 'NO'}
 GU Introduction Made: ${data.gu_intro_made ? 'YES' : 'NO'}
 GU Experience Advanced: ${data.gu_exp_advanced ? 'YES' : 'NO'}
 Business Closed: ${data.business_closed ? 'YES' : 'NO'}
-Reach-Outs Sent (${data.reach_outs.length}/5): ${data.reach_outs.join(', ') || 'none logged'}
-People Introduced to GU: ${data.people_introduced.join(', ') || 'none logged'}
-Stairway Stage(s): ${data.stages.join(', ') || 'none selected'}
-Fitness — Strength: ${data.strength ? 'YES' : 'NO'} | Movement: ${data.movement ? 'YES' : 'NO'} | Rest: ${data.rest ? 'YES' : 'NO'}
-Reflection: "${data.reflection || 'none written'}"
+Reach-Outs (${data.reach_outs.length}/5): ${data.reach_outs.join(', ') || 'none'}
+People Introduced to GU: ${data.people_introduced.join(', ') || 'none'}
+Stairway Stage(s): ${data.stages.join(', ') || 'none'}
+Fitness — Strength: ${data.strength?'YES':'NO'} | Movement: ${data.movement?'YES':'NO'} | Rest: ${data.rest?'YES':'NO'}
+Reflection: "${data.reflection || 'none'}"
 Day Shipped: ${data.shipped}`;
 }
 
 function buildWeeklyReviewPrompt(weekLogs) {
-  const summary = weekLogs.map(l => `
-${l.date}: Shipped=${l.shipped}, BusinessOpened=${l.business_opened}, GUIntro=${l.gu_intro_made}, GUAdvanced=${l.gu_exp_advanced}, BusinessClosed=${l.business_closed}, ReachOuts=${l.reach_outs.length}, PeopleIntroduced=${l.people_introduced.length}, Stages=[${l.stages.join(',')}], Strength=${l.strength}, Movement=${l.movement}, Rest=${l.rest}, Reflection="${l.reflection}"`).join('\n');
-
-  return `You are a thoughtful mentor and coach reviewing someone's weekly GU business activity. Based on this week's Daily Shipped logs, write a Sunday morning mentor review. Cover: consistency (days shipped vs total), strengths you see across the week, areas for improvement, patterns in their fitness/reflection data, and specific encouragement + 2-3 actionable focuses for next week. Write in a mentor's voice — warm, clear, direct. Use short paragraphs. No bullet points.
-
-This week's logs:
-${summary}`;
+  const summary = weekLogs.map(l =>
+    `${l.date}: Shipped=${l.shipped}, BusinessOpened=${l.business_opened}, GUIntro=${l.gu_intro_made}, GUAdvanced=${l.gu_exp_advanced}, BusinessClosed=${l.business_closed}, ReachOuts=${(l.reach_outs||[]).length}, PeopleIntro=${(l.people_introduced||[]).length}, Stages=[${(l.stages||[]).join(',')}], Strength=${l.strength}, Movement=${l.movement}, Rest=${l.rest}, Reflection="${l.reflection}"`
+  ).join('\n');
+  return `You are a thoughtful mentor reviewing someone's weekly GU business activity. Write a Sunday morning mentor review covering: consistency (days shipped vs total), strengths across the week, areas for improvement, fitness/reflection patterns, and 2-3 actionable focuses for next week. Warm, clear, direct. Short paragraphs. No bullet points.\n\nThis week:\n${summary}`;
 }
 
 function buildMonthlyReviewPrompt(monthLogs) {
   const shipped = monthLogs.filter(l => l.shipped === 'YES').length;
-  const summary = monthLogs.map(l => `${l.date}: Shipped=${l.shipped}, ReachOuts=${l.reach_outs.length}, GUIntro=${l.gu_intro_made}, PeopleIntro=${l.people_introduced.length}, Fitness(S/M/R)=${l.strength?1:0}/${l.movement?1:0}/${l.rest?1:0}`).join('\n');
-
-  return `You are a strategic mentor giving a monthly review of someone's GU business and personal development. They logged ${monthLogs.length} days with ${shipped} days shipped. Analyze trends, overall consistency, what's working, what needs attention, notable patterns in their fitness/reflection data, and give strategic direction for next month. Be direct and insightful like a senior mentor. Use paragraphs, not bullet points. This should feel like a real, substantive review — not generic.
-
-Monthly data:
-${summary}`;
+  const summary = monthLogs.map(l =>
+    `${l.date}: Shipped=${l.shipped}, ReachOuts=${(l.reach_outs||[]).length}, GUIntro=${l.gu_intro_made}, PeopleIntro=${(l.people_introduced||[]).length}, Fitness(S/M/R)=${l.strength?1:0}/${l.movement?1:0}/${l.rest?1:0}, Reflection="${l.reflection}"`
+  ).join('\n');
+  return `You are a strategic mentor giving a monthly review. ${monthLogs.length} days logged, ${shipped} shipped. Analyze trends, consistency, what's working, what needs attention, fitness patterns, and give strategic direction for next month. Direct and insightful. Paragraphs, not bullet points.\n\nMonthly data:\n${summary}`;
 }
 
 // ============ AI CALL ============
@@ -980,70 +886,46 @@ async function callClaude(prompt) {
 async function generateWeeklyReview() {
   const now = new Date();
   const day = now.getDay();
-  const weekStart = new Date(now);
-  weekStart.setDate(now.getDate() - day);
+  const weekStart = new Date(now); weekStart.setDate(now.getDate() - day);
   const weekStartStr = weekStart.toISOString().split('T')[0];
   const weekEndStr = now.toISOString().split('T')[0];
-
   const weekLogs = logs.filter(l => l.date >= weekStartStr && l.date <= weekEndStr);
 
   const box = document.getElementById('aiReviewResponse');
   const txt = document.getElementById('aiReviewText');
   box.classList.add('visible');
 
-  if (weekLogs.length === 0) {
-    txt.textContent = 'No logs found for this week yet. Fill out at least one Daily Shipped log to get your weekly review.';
-    return;
-  }
-
+  if (weekLogs.length === 0) { txt.textContent = 'No logs found for this week yet. Fill out at least one Daily Shipped log first.'; return; }
   txt.innerHTML = '<div class="loading"><div class="spinner"></div> Your mentor is reviewing your week...</div>';
-  try {
-    txt.textContent = await callClaude(buildWeeklyReviewPrompt(weekLogs));
-  } catch(e) {
-    txt.textContent = 'Could not connect. Please try again.';
-  }
+  try { txt.textContent = await callClaude(buildWeeklyReviewPrompt(weekLogs)); }
+  catch(e) { txt.textContent = 'Could not connect. Please try again.'; }
 }
 
 async function generateMonthlyReview() {
-  const now = new Date();
-  const monthStr = now.toISOString().slice(0, 7);
+  const monthStr = new Date().toISOString().slice(0, 7);
   const monthLogs = logs.filter(l => l.date.startsWith(monthStr));
 
   const box = document.getElementById('aiReviewResponse');
   const txt = document.getElementById('aiReviewText');
   box.classList.add('visible');
 
-  if (monthLogs.length === 0) {
-    txt.textContent = 'No logs found for this month yet. Fill out some Daily Shipped logs first.';
-    return;
-  }
-
+  if (monthLogs.length === 0) { txt.textContent = 'No logs found for this month yet.'; return; }
   txt.innerHTML = '<div class="loading"><div class="spinner"></div> Your mentor is reviewing your month...</div>';
-  try {
-    txt.textContent = await callClaude(buildMonthlyReviewPrompt(monthLogs));
-  } catch(e) {
-    txt.textContent = 'Could not connect. Please try again.';
-  }
+  try { txt.textContent = await callClaude(buildMonthlyReviewPrompt(monthLogs)); }
+  catch(e) { txt.textContent = 'Could not connect. Please try again.'; }
 }
 
 // ============ STATS ============
 function renderStats() {
   const total = logs.length;
   const shipped = logs.filter(l => l.shipped === 'YES').length;
-  const rate = total > 0 ? Math.round((shipped / total) * 100) + '%' : '—';
-
   document.getElementById('statTotal').textContent = total;
   document.getElementById('statShipped').textContent = shipped;
-  document.getElementById('statRate').textContent = rate;
+  document.getElementById('statRate').textContent = total > 0 ? Math.round((shipped/total)*100)+'%' : '—';
 
-  // Streak
   let streak = 0;
-  const today = new Date().toISOString().split('T')[0];
-  const sortedLogs = [...logs].sort((a, b) => b.date.localeCompare(a.date));
-  for (const log of sortedLogs) {
-    if (log.shipped === 'YES') streak++;
-    else break;
-  }
+  const sorted = [...logs].sort((a,b) => b.date.localeCompare(a.date));
+  for (const log of sorted) { if (log.shipped === 'YES') streak++; else break; }
   document.getElementById('streakNum').textContent = streak;
 }
 
@@ -1053,17 +935,15 @@ function renderHeatmap() {
   container.innerHTML = '';
   const logMap = {};
   logs.forEach(l => logMap[l.date] = l.shipped);
-
   const today = new Date();
   for (let i = 89; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
+    const d = new Date(today); d.setDate(today.getDate() - i);
     const key = d.toISOString().split('T')[0];
     const div = document.createElement('div');
     div.className = 'heatmap-day';
     if (logMap[key] === 'YES') div.classList.add('shipped');
     else if (logMap[key] === 'NO') div.classList.add('not-shipped');
-    div.title = key + (logMap[key] ? ' — ' + logMap[key] : '');
+    div.title = key + (logMap[key] ? ' — ' + logMap[key] : ' — no log');
     container.appendChild(div);
   }
 }
@@ -1072,30 +952,31 @@ function renderHeatmap() {
 function renderHistory() {
   const container = document.getElementById('historyList');
   if (logs.length === 0) {
-    container.innerHTML = '<div style="text-align:center;color:var(--text3);font-family:\'DM Mono\',monospace;font-size:0.8rem;padding:40px">No logs yet — fill out today\'s form to get started.</div>';
+    container.innerHTML = '<div style="text-align:center;color:var(--text3);font-family:\'DM Mono\',monospace;font-size:0.8rem;padding:40px">No logs yet.</div>';
     return;
   }
-  container.innerHTML = logs.map((l, i) => {
+  container.innerHTML = logs.map(l => {
     const d = new Date(l.date + 'T12:00:00');
-    const label = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-    const reflectionSnippet = l.reflection ? `<div style="margin-top:8px;color:var(--text2);font-style:italic">"${l.reflection.slice(0, 120)}${l.reflection.length > 120 ? '…' : ''}"</div>` : '';
+    const label = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+    const reflectionSnippet = l.reflection ? `<div style="margin-top:8px;color:var(--text2);font-style:italic">"${l.reflection.slice(0,120)}${l.reflection.length>120?'…':''}"</div>` : '';
     const checklist = `
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:8px;font-family:'DM Mono',monospace;font-size:0.72rem">
-        <span style="color:${l.business_opened ? 'var(--accent)' : 'var(--text3)'}">${l.business_opened ? '✓' : '○'} Business Opened</span>
-        <span style="color:${l.gu_intro_made ? 'var(--accent)' : 'var(--text3)'}">${l.gu_intro_made ? '✓' : '○'} GU Intro Made</span>
-        <span style="color:${l.gu_exp_advanced ? 'var(--accent)' : 'var(--text3)'}">${l.gu_exp_advanced ? '✓' : '○'} GU Exp. Advanced</span>
-        <span style="color:${l.business_closed ? 'var(--accent)' : 'var(--text3)'}">${l.business_closed ? '✓' : '○'} Business Closed</span>
-        <span style="color:${l.strength ? 'var(--accent2)' : 'var(--text3)'}">${l.strength ? '✓' : '○'} Strength</span>
-        <span style="color:${l.movement ? 'var(--accent2)' : 'var(--text3)'}">${l.movement ? '✓' : '○'} Movement</span>
+        <span style="color:${l.business_opened?'var(--accent)':'var(--text3)'}">${l.business_opened?'✓':'○'} Business Opened</span>
+        <span style="color:${l.gu_intro_made?'var(--accent)':'var(--text3)'}">${l.gu_intro_made?'✓':'○'} GU Intro Made</span>
+        <span style="color:${l.gu_exp_advanced?'var(--accent)':'var(--text3)'}">${l.gu_exp_advanced?'✓':'○'} GU Exp. Advanced</span>
+        <span style="color:${l.business_closed?'var(--accent)':'var(--text3)'}">${l.business_closed?'✓':'○'} Business Closed</span>
+        <span style="color:${l.strength?'var(--accent2)':'var(--text3)'}">${l.strength?'✓':'○'} Strength</span>
+        <span style="color:${l.movement?'var(--accent2)':'var(--text3)'}">${l.movement?'✓':'○'} Movement</span>
+        <span style="color:${l.rest?'var(--accent2)':'var(--text3)'}">${l.rest?'✓':'○'} Rest</span>
       </div>
-      ${l.reach_outs.length > 0 ? `<div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text2)">Reach-Outs: ${l.reach_outs.join(', ')}</div>` : ''}
-      ${l.people_introduced.length > 0 ? `<div style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text2)">Introduced: ${l.people_introduced.join(', ')}</div>` : ''}
-      ${reflectionSnippet}
-    `;
+      ${(l.reach_outs||[]).length>0?`<div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text2)">Reach-Outs: ${l.reach_outs.join(', ')}</div>`:''}
+      ${(l.people_introduced||[]).length>0?`<div style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text2)">Introduced: ${l.people_introduced.join(', ')}</div>`:''}
+      ${(l.stages||[]).length>0?`<div style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text2)">Stages: ${l.stages.join(', ')}</div>`:''}
+      ${reflectionSnippet}`;
     return `<div class="history-item" onclick="this.classList.toggle('open')">
       <div class="history-item-header">
         <span class="history-date">${label}</span>
-        <span class="shipped-tag ${l.shipped === 'YES' ? 'yes' : 'no'}">${l.shipped === 'YES' ? 'SHIPPED' : 'NOT SHIPPED'}</span>
+        <span class="shipped-tag ${l.shipped==='YES'?'yes':'no'}">${l.shipped==='YES'?'SHIPPED':'NOT SHIPPED'}</span>
       </div>
       <div class="history-detail">${checklist}</div>
     </div>`;
