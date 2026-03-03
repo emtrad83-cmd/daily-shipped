@@ -507,6 +507,7 @@ async function callClaudeImg(b64,mime,prompt,sys){
   const body={model:'claude-sonnet-4-20250514',max_tokens:1200,system:sys,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:mime,data:b64}},{type:'text',text:prompt}]}]};
   const r=await fetch('https://gu-proxy.emtrad83.workers.dev/',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01'},body:JSON.stringify(body)});
   const d=await r.json();
+  console.log('Worker response:', JSON.stringify(d));
   return JSON.parse(d.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim());
 }
 
