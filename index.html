@@ -486,7 +486,16 @@ function buildMonthlyReviewPrompt(ml){
 }
 
 async function callClaude(prompt){
-  const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]})});
+  const r=await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "x-api-key":"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",
+      "anthropic-version":"2023-06-01",
+      "anthropic-dangerous-direct-browser-access":"true"
+    },
+    body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]})
+  });
   const d=await r.json();
   return d.content.map(b=>b.text||'').join('');
 }
