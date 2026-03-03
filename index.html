@@ -640,7 +640,12 @@ function updateContactStage(id,stage,el){
   el.classList.add('active');
   const c=allContacts.find(x=>x.id===id);
   showToast(`${stage} saved for ${c?.name?.split(' ')[0]||id}`);
-  db.from('contact_overrides').upsert({contact_id:id,pipeline_stage:stage,updated_at:new Date().toISOString()},{onConflict:'contact_id'}).catch(()=>{});
+  db.from('contact_overrides').select('notes').eq('contact_id',id).maybeSingle()
+    .then(({data:existing})=>{
+      const row={contact_id:id,pipeline_stage:stage,updated_at:new Date().toISOString()};
+      if(existing?.notes) row.notes=existing.notes;
+      return db.from('contact_overrides').upsert(row,{onConflict:'contact_id'});
+    }).catch(()=>{});
   renderContactGrid();
 }
 
@@ -648,7 +653,10 @@ async function saveContactNotes(id){
   const val=document.getElementById('notesField_'+id)?.value||'';
   contactNotes[id]=val;
   try{
-    await db.from('contact_overrides').upsert({contact_id:id,notes:val,updated_at:new Date().toISOString()},{onConflict:'contact_id'});
+    const{data:existing}=await db.from('contact_overrides').select('*').eq('contact_id',id).maybeSingle();
+    const row={contact_id:id,notes:val,updated_at:new Date().toISOString()};
+    if(existing?.pipeline_stage) row.pipeline_stage=existing.pipeline_stage;
+    await db.from('contact_overrides').upsert(row,{onConflict:'contact_id'});
     showToast('Notes saved');
   }catch(e){showToast('Notes saved locally')}
 }
@@ -740,7 +748,7 @@ async function loadLogs(){
     const{data,error}=await db.from('shipped_logs').select('*').order('date',{ascending:false});
     if(error)throw error;
     logs=data||[];setSyncStatus('synced','Synced');
-    renderStats();renderHeatmap();renderHistory();buildContactsFromLogs();
+    renderStats();renderStats();renderHeatmap();renderHistory();buildContactsFromLogs();
   }catch(e){setSyncStatus('error','Offline');console.error(e)}
 }
 document.addEventListener('DOMContentLoaded',async()=>{
