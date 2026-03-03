@@ -820,7 +820,7 @@ function handleCoachImage(e){
   preview.src=URL.createObjectURL(file);preview.style.display='block';
   const reader=new FileReader();reader.onload=()=>coachImageBase64=reader.result.split(',')[1];reader.readAsDataURL(file);
 }
-async function analyzeConversation()
+async function analyzeConversation(){
   const btn=document.getElementById('coachAnalyzeBtn');
   const tv=document.getElementById('coachTextarea').value.trim();
   const sv=document.getElementById('coachSummaryArea').value.trim();
