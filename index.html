@@ -679,9 +679,9 @@
 // ─────────────────────────────────────────────
 // SUPABASE CONFIG
 // ─────────────────────────────────────────────
-const SUPA_URL = 'https://kkerejaviuqnaalbbnfs.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrZXJlamF2aXVxbmFhbGJibmZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1Mzc0MDAsImV4cCI6MjA4ODExMzQwMH0.aqqh3Qmh-L8-YiF9asZhY5xjlGdcd5L4q3arfDKIv1I';
-const CLAUDE_API = 'https://api.anthropic.com/v1/messages';
+const SUPA_URL = 'https://YOUR_SUPABASE_URL.supabase.co';
+const SUPA_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const CLAUDE_API = 'https://gu-proxy.emtrad83.workers.dev/v1/messages';
 
 async function sb(path, opts={}) {
   const r = await fetch(SUPA_URL + '/rest/v1/' + path, {
@@ -1264,20 +1264,10 @@ Be direct, specific, and actionable. Format clearly with labeled sections.`;
   try {
     const res = await fetch(CLAUDE_API, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{role:'user', content: prompt}]
-      })
-    });
-    const data = await res.json();
-    const text = data.content?.map(b => b.text||'').join('') || 'No response received.';
-    out.className = 'coach-output';
-    out.textContent = text;
-  } catch(e) {
-    out.className = 'coach-output';
-    out.textContent = 'Error reaching Claude API. Check your connection and API key.';
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01'
+      },
   }
 }
 
@@ -1415,7 +1405,10 @@ Use strengths-based language. Be a coach who believes in Evan — direct, specif
   try {
     const res = await fetch(CLAUDE_API, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
