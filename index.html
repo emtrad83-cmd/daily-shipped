@@ -1143,7 +1143,7 @@ function renderHeatmap(){
   const today=new Date();
   for(let i=89;i>=0;i--){
     const d=new Date(today);d.setDate(today.getDate()-i);
-    const key=d.toISOString().split('T')[0];
+    const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
     const div=document.createElement('div');div.className='heatmap-day';
     if(lm[key]==='YES')div.classList.add('shipped');else if(lm[key]==='NO')div.classList.add('not-shipped');
     div.title=key+(lm[key]?' — '+lm[key]:' — no log');
