@@ -113,15 +113,10 @@ textarea{min-height:75px}
 .review-btn:hover{border-color:var(--accent2);color:var(--accent2)}
 .review-btn.monthly:hover{border-color:var(--accent3);color:var(--accent3)}
 .review-btn-sub{font-size:.65rem;color:var(--text3);margin-top:2px;text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif}
-.contacts-filter{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-.filter-pill{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);color:var(--text3);font-family:'DM Mono',monospace;font-size:.68rem;cursor:pointer;transition:all .15s;user-select:none}
-.filter-pill:hover{border-color:var(--accent);color:var(--accent)}
-.filter-pill.active{background:rgba(184,255,87,.1);border-color:var(--accent);color:var(--accent)}
 .contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
 .contact-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:13px;cursor:pointer;transition:all .15s;position:relative}
 .contact-card:hover{border-color:var(--accent)}
 .contact-card.selected{border-color:var(--accent);background:rgba(184,255,87,.04)}
-.contact-card.core{border-color:rgba(184,255,87,.12)}
 .contact-icon{font-size:1.4rem;margin-bottom:5px}
 .contact-name{font-weight:600;font-size:.9rem;color:var(--text);margin-bottom:2px}
 .contact-arch{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
@@ -138,7 +133,6 @@ textarea{min-height:75px}
 .contact-meta{display:flex;gap:10px;margin-top:5px;flex-wrap:wrap}
 .contact-meta-item{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--text3)}
 .contact-meta-item span{color:var(--text2)}
-.pipeline-badge{position:absolute;top:10px;right:10px;background:rgba(87,255,184,.1);border:1px solid rgba(87,255,184,.25);color:var(--accent2);font-family:'DM Mono',monospace;font-size:.58rem;padding:2px 7px;border-radius:8px;text-transform:uppercase;letter-spacing:.05em}
 .reach-count-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(184,255,87,.07);border:1px solid rgba(184,255,87,.18);color:var(--accent);border-radius:10px;padding:2px 8px;font-family:'DM Mono',monospace;font-size:.62rem}
 .contact-detail{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
 .tension-tag{display:inline-block;background:rgba(255,140,87,.1);border:1px solid rgba(255,140,87,.22);color:var(--accent4);border-radius:12px;padding:3px 10px;font-family:'DM Mono',monospace;font-size:.62rem;margin:2px;text-transform:uppercase;letter-spacing:.04em}
@@ -227,6 +221,8 @@ textarea{min-height:75px}
     <button onclick="showTab('reviews',this)">📊 Reviews</button>
     <button onclick="showTab('reminders',this)">⏰ Reminders</button>
   </div>
+
+  <!-- DAILY LOG -->
   <div id="tab-log" class="panel active">
     <div class="stats-row">
       <div class="stat-card"><div class="stat-num" id="statTotal">—</div><div class="stat-label">Days Logged</div></div>
@@ -290,6 +286,8 @@ textarea{min-height:75px}
       <div class="ai-text" id="aiCoachText"></div>
     </div>
   </div>
+
+  <!-- CONVO COACH -->
   <div id="tab-coach" class="panel">
     <div class="card">
       <div class="card-title orange">Select Contact (Optional)</div>
@@ -348,19 +346,18 @@ textarea{min-height:75px}
       </div>
     </div>
   </div>
+
+  <!-- CONTACTS -->
   <div id="tab-contacts" class="panel">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-      <div class="contacts-filter" style="margin-bottom:0" id="contactsFilter">
-        <div class="filter-pill active" onclick="filterContacts('all',this)">All</div>
-        <div class="filter-pill" onclick="filterContacts('core',this)">Core 8</div>
-        <div class="filter-pill" onclick="filterContacts('pipeline',this)">Pipeline</div>
-        <div class="filter-pill" onclick="filterContacts('new',this)">New</div>
-      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:.82rem;color:var(--accent)">Pipeline</div>
       <div style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--text3)" id="contactCount"></div>
     </div>
     <div class="contact-grid" id="contactGrid"></div>
     <div id="contactDetail" style="display:none"></div>
   </div>
+
+  <!-- HISTORY -->
   <div id="tab-history" class="panel">
     <div class="card">
       <div class="card-title">90-Day Shipped Heatmap</div>
@@ -373,6 +370,8 @@ textarea{min-height:75px}
     </div>
     <div id="historyList"></div>
   </div>
+
+  <!-- REVIEWS -->
   <div id="tab-reviews" class="panel">
     <div class="card">
       <div class="card-title gold">Weekly Mentor Review</div>
@@ -399,6 +398,8 @@ textarea{min-height:75px}
       </div>
     </div>
   </div>
+
+  <!-- REMINDERS -->
   <div id="tab-reminders" class="panel">
     <div class="reminder-box">
       <h3>⏰ Daily Log — Mon–Fri at 7:00 PM</h3>
@@ -425,23 +426,28 @@ textarea{min-height:75px}
   </div>
 </div>
 <div class="toast" id="toast"></div>
+
 <script>
 const PROXY = 'https://gu-proxy.emtrad83.workers.dev/';
 const {createClient} = supabase;
 const db = createClient('https://kkerejaviuqnaalbbnfs.supabase.co','sb_publishable_muGWu5avi1fJm90mSmoPIA_-9WRaqxD');
-const CORE_CONTACTS = [
-  {id:'aaron',name:'Aaron Aponte',icon:'🏗️',archetype:'Structural Builder',viability:'High Mentor',vbClass:'vb-emerald',stageNum:3,stage:'Advanced Depth',tension:['Comp plans reward top only','Wants duplication + fairness','His people earning $500/month minimum'],nextMove:"Ask: 'What needs to be structurally in place for your people to consistently earn $500/month?'",notes:'Decision coming soon. Stay calm. Equal footing — assessing fit, not convincing.',isCore:true},
-  {id:'cynthia',name:'Cynthia Adams McGrath',icon:'🤲',archetype:'Caregiver / Capacity Strain',viability:'Patron Likely',vbClass:'vb-blue',stageNum:4,stage:'Relief Window Opening',tension:['Chronic low sleep','Heavy caregiver load for David','Seesaw balance'],nextMove:"Ask: 'If you found the right help for David, what would that free up for you?'",notes:'Faith-grounded. Sample is the right door, not the business.',isCore:true},
-  {id:'martha',name:'Martha Arriaga',icon:'💙',archetype:'Caregiver / Emotional Fatigue',viability:'Patron Strong',vbClass:'vb-blue',stageNum:3,stage:'Deep Emotional Tension',tension:['Never getting a break','Role reversal grief','Survival mode'],nextMove:"Ask: 'If you had one predictable break a week, what would that change?'",notes:'Validate once then move. Sample only right now.',isCore:true},
-  {id:'landon',name:'Landon Heck',icon:'🏢',archetype:'Structural Builder / Real Estate',viability:'Possible Mentor',vbClass:'vb-yellow',stageNum:2,stage:'Early — Tension Not Revealed',tension:['Scaling from solo to team (predicted)','Duplication friction (predicted)'],nextMove:"Ask: 'What has been the biggest shift since you moved from solo to leading a team?'",notes:'Do not pitch. Find friction first.',isCore:true},
-  {id:'amanda',name:'Amanda White',icon:'🌱',archetype:'Relational / Value-Driven',viability:'Patron → Giver',vbClass:'vb-yellow',stageNum:2,stage:'Depth Built — Not Advanced',tension:['Tension needs refresh'],nextMove:"Re-engage: 'Has anything shifted for you recently?'",notes:'Relationship is built. Find what is alive today.',isCore:true},
-  {id:'scott',name:'Scott Leitner',icon:'🔍',archetype:'Unknown Builder',viability:'Unclear',vbClass:'vb-gray',stageNum:2,stage:'Depth — Stalled',tension:['Not moved to consequence yet'],nextMove:"Simple re-engage: 'How is that evolving?'",notes:'Short message. Wait for signal.',isCore:true},
-  {id:'becky',name:'Becky Linderholm',icon:'💛',archetype:'Relational / Wellness',viability:'Patron Lane',vbClass:'vb-blue',stageNum:1,stage:'Dormant',tension:['Unknown — needs refresh'],nextMove:"Ask: 'What has been taking most of your energy lately?'",notes:'Re-enter naturally. No pitch.',isCore:true},
-  {id:'trisha',name:'Trisha Borland',icon:'⚡',archetype:'Overwhelmed / Capacity',viability:'Patron Strong',vbClass:'vb-blue',stageNum:2,stage:'Not Advanced',tension:['Capacity strain'],nextMove:"Ask: 'If you could make one thing lighter this month, what would it be?'",notes:'Keep it light. Sample only.',isCore:true}
+
+// All 8 contacts treated as regular pipeline contacts — no Core 8 label
+const PRESET_CONTACTS = [
+  {id:'aaron',name:'Aaron Aponte',icon:'🏗️',archetype:'Structural Builder',viability:'High Mentor',vbClass:'vb-emerald',stageNum:3,tension:['Comp plans reward top only','Wants duplication + fairness','His people earning $500/month minimum'],nextMove:"Ask: 'What needs to be structurally in place for your people to consistently earn $500/month?'",notes:'Decision coming soon. Stay calm. Equal footing — assessing fit, not convincing.'},
+  {id:'cynthia',name:'Cynthia Adams McGrath',icon:'🤲',archetype:'Caregiver / Capacity Strain',viability:'Patron Likely',vbClass:'vb-blue',stageNum:4,tension:['Chronic low sleep','Heavy caregiver load for David','Seesaw balance'],nextMove:"Ask: 'If you found the right help for David, what would that free up for you?'",notes:'Faith-grounded. Sample is the right door, not the business.'},
+  {id:'martha',name:'Martha Arriaga',icon:'💙',archetype:'Caregiver / Emotional Fatigue',viability:'Patron Strong',vbClass:'vb-blue',stageNum:3,tension:['Never getting a break','Role reversal grief','Survival mode'],nextMove:"Ask: 'If you had one predictable break a week, what would that change?'",notes:'Validate once then move. Sample only right now.'},
+  {id:'landon',name:'Landon Heck',icon:'🏢',archetype:'Structural Builder / Real Estate',viability:'Possible Mentor',vbClass:'vb-yellow',stageNum:2,tension:['Scaling from solo to team (predicted)','Duplication friction (predicted)'],nextMove:"Ask: 'What has been the biggest shift since you moved from solo to leading a team?'",notes:'Do not pitch. Find friction first.'},
+  {id:'amanda',name:'Amanda White',icon:'🌱',archetype:'Relational / Value-Driven',viability:'Patron → Giver',vbClass:'vb-yellow',stageNum:2,tension:['Tension needs refresh'],nextMove:"Re-engage: 'Has anything shifted for you recently?'",notes:'Relationship is built. Find what is alive today.'},
+  {id:'scott',name:'Scott Leitner',icon:'🔍',archetype:'Unknown Builder',viability:'Unclear',vbClass:'vb-gray',stageNum:2,tension:['Not moved to consequence yet'],nextMove:"Simple re-engage: 'How is that evolving?'",notes:'Short message. Wait for signal.'},
+  {id:'becky',name:'Becky Linderholm',icon:'💛',archetype:'Relational / Wellness',viability:'Patron Lane',vbClass:'vb-blue',stageNum:1,tension:['Unknown — needs refresh'],nextMove:"Ask: 'What has been taking most of your energy lately?'",notes:'Re-enter naturally. No pitch.'},
+  {id:'trisha',name:'Trisha Borland',icon:'⚡',archetype:'Overwhelmed / Capacity',viability:'Patron Strong',vbClass:'vb-blue',stageNum:2,tension:['Capacity strain'],nextMove:"Ask: 'If you could make one thing lighter this month, what would it be?'",notes:'Keep it light. Sample only.'}
 ];
+
 const STAGE_LABELS = ['Rapport','Depth','Clarifying Consequence','Desire Window','Invitation','Experience','Evaluation','Decision'];
 const GU_STAGES = ['Curious','6W','Sample','Patron Preso','Patron Account','10 Day Trial','Briefing','Saturday Training','Monday MAP','Interview'];
 const STAGE_TO_NUM = {'Curious':1,'6W':2,'Sample':3,'Patron Preso':4,'Patron Account':4,'10 Day Trial':5,'Briefing':6,'Saturday Training':7,'Monday MAP':8,'Interview':8};
+
 const COACH_SYSTEM = `You are an elite conversation coach for Evan Trad, a GIVERS University (GU) mentor. Read the conversation and respond ONLY with valid JSON — no markdown, no extra text.
 EVAN'S VOICE: Warm, direct, confident but never pushy. Spiritually grounded. Genuinely curious. Never sells, always assesses fit. Short messages. Surfaces tension, not hype. Equal footing — calm, not urgent. Moves conversations FORWARD.
 ARCHETYPES: Structural Builder, Caregiver Under Strain, Relational/Value-Driven, Burned-Out High Achiever, Momentum-Driven Recruiter, Identity-Seeker.
@@ -450,23 +456,26 @@ THREE RULES — every message must: 1) Reveal tension OR 2) Clarify consequence 
 LOOP PREVENTION: Validate once, twice max. Then move.
 RESPOND ONLY WITH THIS JSON:
 {"archetype":"...","stage":"...","stageNumber":1,"emotionalTemp":"...","tensionDetected":["..."],"powerFrame":"Evan is [chasing/equal footing/needs calibration] — one sentence why","coaching":"2-4 sentences of what is happening and what Evan needs to know","nextMove":"one sentence tactical next move","message":"Evan's actual next message in his voice ready to send"}`;
+
 let logs=[], currentShipped=null, activeLogDate='', personCardCount=0;
 let selectedCoachContact=null, coachImageBase64=null, coachImageMime='image/jpeg';
-let allContacts=[], contactConvoHistory={}, contactNotes={}, contactOverrideStages={}, contactFilter='all', selectedContactId=null;
+let allContacts=[], contactConvoHistory={}, contactNotes={}, contactOverrideStages={}, selectedContactId=null;
+
 function setSyncStatus(s,l){document.getElementById('syncDot').className='sync-dot '+s;document.getElementById('syncLabel').textContent=l}
 function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
 function todayStr(){return new Date().toISOString().split('T')[0]}
 function formatDateDisplay(d){return new Date(d+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}
 function formatDateShort(d){return new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}
 function slugify(n){return n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
-async function callClaude(prompt, sys, isJson=false){
+
+async function callClaude(prompt,sys,isJson=false){
   const body={model:'claude-sonnet-4-20250514',max_tokens:1200,messages:[{role:'user',content:prompt}]};
   if(sys) body.system=sys;
   const r=await fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
   const d=await r.json();
   if(d.error) throw new Error(d.error.message);
   const text=d.content.map(b=>b.text||'').join('');
-  if(isJson){return JSON.parse(text.replace(/```json|```/g,'').trim())}
+  if(isJson) return JSON.parse(text.replace(/```json|```/g,'').trim());
   return text;
 }
 async function callClaudeImg(b64,mime,prompt,sys){
@@ -476,59 +485,48 @@ async function callClaudeImg(b64,mime,prompt,sys){
   if(d.error) throw new Error(d.error.message);
   return JSON.parse(d.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim());
 }
+
 function buildContactsFromLogs(){
   const map={};
-  CORE_CONTACTS.forEach(c=>{map[c.id]={...c,reachOutCount:0,lastInteraction:'',pipelineStage:contactOverrideStages[c.id]||'',notes:contactNotes[c.id]||c.notes}});
+  // Load all preset contacts into pipeline (no core/non-core distinction)
+  PRESET_CONTACTS.forEach(c=>{
+    map[c.id]={...c,reachOutCount:0,lastInteraction:'',pipelineStage:contactOverrideStages[c.id]||'',notes:contactNotes[c.id]||c.notes};
+  });
   const sorted=[...logs].sort((a,b)=>a.date.localeCompare(b.date));
   sorted.forEach(log=>{
     (log.reach_outs||[]).forEach(name=>{
       if(!name||!name.trim()) return;
       name=name.trim();
-      const core=CORE_CONTACTS.find(c=>c.name.toLowerCase().includes(name.toLowerCase())||name.toLowerCase().includes(c.name.split(' ')[0].toLowerCase()));
-      const tid=core?core.id:slugify(name);
-      if(!map[tid]) map[tid]={id:tid,name,icon:'👤',archetype:'New Contact',viability:'In Pipeline',vbClass:'vb-new',stageNum:1,stage:'Reach-Out Made',tension:[],nextMove:'Conduct 6W interview',notes:contactNotes[tid]||'',isCore:false,reachOutCount:0,lastInteraction:'',pipelineStage:contactOverrideStages[tid]||''};
+      const preset=PRESET_CONTACTS.find(c=>c.name.toLowerCase().includes(name.toLowerCase())||name.toLowerCase().includes(c.name.split(' ')[0].toLowerCase()));
+      const tid=preset?preset.id:slugify(name);
+      if(!map[tid]) map[tid]={id:tid,name,icon:'👤',archetype:'New Contact',viability:'In Pipeline',vbClass:'vb-new',stageNum:1,tension:[],nextMove:'Conduct 6W interview',notes:contactNotes[tid]||'',reachOutCount:0,lastInteraction:'',pipelineStage:contactOverrideStages[tid]||''};
       map[tid].reachOutCount=(map[tid].reachOutCount||0)+1;
       if(!map[tid].lastInteraction||log.date>map[tid].lastInteraction) map[tid].lastInteraction=log.date;
     });
     (log.people_introduced||[]).forEach(p=>{
       if(!p||!p.name) return;
       const name=p.name.trim();
-      const core=CORE_CONTACTS.find(c=>c.name.toLowerCase().includes(name.toLowerCase())||name.toLowerCase().includes(c.name.split(' ')[0].toLowerCase()));
-      const tid=core?core.id:slugify(name);
-      if(!map[tid]) map[tid]={id:tid,name,icon:'👤',archetype:'New Contact',viability:'In Pipeline',vbClass:'vb-new',stageNum:1,stage:p.stage||'Curious',tension:[],nextMove:'Conduct 6W interview',notes:contactNotes[tid]||'',isCore:false,reachOutCount:0,lastInteraction:'',pipelineStage:contactOverrideStages[tid]||p.stage||''};
-      if(p.stage&&!contactOverrideStages[tid]){map[tid].pipelineStage=p.stage;map[tid].stage=p.stage;map[tid].stageNum=Math.max(map[tid].stageNum||1,STAGE_TO_NUM[p.stage]||1)}
+      const preset=PRESET_CONTACTS.find(c=>c.name.toLowerCase().includes(name.toLowerCase())||name.toLowerCase().includes(c.name.split(' ')[0].toLowerCase()));
+      const tid=preset?preset.id:slugify(name);
+      if(!map[tid]) map[tid]={id:tid,name,icon:'👤',archetype:'New Contact',viability:'In Pipeline',vbClass:'vb-new',stageNum:1,tension:[],nextMove:'Conduct 6W interview',notes:contactNotes[tid]||'',reachOutCount:0,lastInteraction:'',pipelineStage:contactOverrideStages[tid]||p.stage||''};
+      if(p.stage&&!contactOverrideStages[tid]){map[tid].pipelineStage=p.stage;map[tid].stageNum=Math.max(map[tid].stageNum||1,STAGE_TO_NUM[p.stage]||1)}
       if(!map[tid].lastInteraction||log.date>map[tid].lastInteraction) map[tid].lastInteraction=log.date;
     });
   });
-  Object.keys(contactOverrideStages).forEach(id=>{if(map[id]){map[id].pipelineStage=contactOverrideStages[id];map[id].stage=contactOverrideStages[id];map[id].stageNum=STAGE_TO_NUM[contactOverrideStages[id]]||map[id].stageNum}});
+  Object.keys(contactOverrideStages).forEach(id=>{if(map[id]){map[id].pipelineStage=contactOverrideStages[id];map[id].stageNum=STAGE_TO_NUM[contactOverrideStages[id]]||map[id].stageNum}});
   Object.keys(contactNotes).forEach(id=>{if(map[id]) map[id].notes=contactNotes[id]});
   allContacts=Object.values(map);
 }
-function getFilteredContacts(){
-  switch(contactFilter){
-    case 'core': return allContacts.filter(c=>c.isCore);
-    case 'pipeline': return allContacts.filter(c=>!c.isCore&&(c.pipelineStage||c.reachOutCount>0));
-    case 'new': return allContacts.filter(c=>!c.isCore);
-    default: return allContacts;
-  }
-}
-function filterContacts(f,btn){
-  contactFilter=f;
-  document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');
-  renderContactGrid();
-}
+
 function renderContactGrid(){
   buildContactsFromLogs();
-  const contacts=getFilteredContacts();
-  document.getElementById('contactCount').textContent=contacts.length+' contact'+(contacts.length!==1?'s':'');
-  document.getElementById('contactGrid').innerHTML=contacts.map(c=>{
+  document.getElementById('contactCount').textContent=allContacts.length+' contact'+(allContacts.length!==1?'s':'');
+  document.getElementById('contactGrid').innerHTML=allContacts.map(c=>{
     const segs=Array.from({length:8},(_,i)=>`<div class="stage-mini-seg${i<(c.stageNum||1)?' filled':''}"></div>`).join('');
     const meta=[];
     if(c.reachOutCount) meta.push(`<span class="contact-meta-item">📤 <span>${c.reachOutCount} reach-out${c.reachOutCount!==1?'s':''}</span></span>`);
     if(c.lastInteraction) meta.push(`<span class="contact-meta-item">📅 <span>${formatDateShort(c.lastInteraction)}</span></span>`);
-    return `<div class="contact-card${c.isCore?' core':''}${selectedContactId===c.id?' selected':''}" onclick="showContactDetail('${c.id}')">
-      ${!c.isCore?'<div class="pipeline-badge">Pipeline</div>':''}
+    return `<div class="contact-card${selectedContactId===c.id?' selected':''}" onclick="showContactDetail('${c.id}')">
       <div class="contact-icon">${c.icon}</div>
       <div class="contact-name">${c.name}</div>
       <div class="contact-arch">${c.archetype}</div>
@@ -539,6 +537,7 @@ function renderContactGrid(){
     </div>`;
   }).join('');
 }
+
 function showContactDetail(id){
   selectedContactId=id;
   buildContactsFromLogs();
@@ -568,11 +567,11 @@ function showContactDetail(id){
     ${c.nextMove?`<div class="next-move-box">🎯 ${c.nextMove}</div>`:''}
     <div style="margin-top:12px">
       <div style="display:flex;gap:3px;margin-bottom:4px">${Array.from({length:8},(_,i)=>`<div style="height:4px;flex:1;border-radius:4px;background:${i<(c.stageNum||1)?'var(--accent)':'var(--border)'}"></div>`).join('')}</div>
-      <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--text3)">${STAGE_LABELS[Math.min((c.stageNum||1)-1,7)]} — ${c.pipelineStage||c.stage||''}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--text3)">${STAGE_LABELS[Math.min((c.stageNum||1)-1,7)]} — ${c.pipelineStage||''}</div>
     </div>
     <div style="margin-top:14px">
       <div style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Update Pipeline Stage</div>
-      <div class="pipeline-stages">${GU_STAGES.map(s=>`<div class="pipeline-pill${(c.pipelineStage||c.stage)===s?' active':''}" onclick="updateContactStage('${id}','${s}',this)">${s}</div>`).join('')}</div>
+      <div class="pipeline-stages">${GU_STAGES.map(s=>`<div class="pipeline-pill${c.pipelineStage===s?' active':''}" onclick="updateContactStage('${id}','${s}',this)">${s}</div>`).join('')}</div>
     </div>
     <div class="notes-edit-box" style="margin-top:14px">
       <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">📌 Notes</div>
@@ -589,6 +588,7 @@ function showContactDetail(id){
   document.getElementById('contactDetail').style.display='block';
   document.getElementById('contactDetail').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
+
 function updateContactStage(id,stage,el){
   contactOverrideStages[id]=stage;
   buildContactsFromLogs();
@@ -604,6 +604,7 @@ function updateContactStage(id,stage,el){
     }).catch(()=>{});
   renderContactGrid();
 }
+
 async function saveContactNotes(id){
   const val=document.getElementById('notesField_'+id)?.value||'';
   contactNotes[id]=val;
@@ -615,6 +616,7 @@ async function saveContactNotes(id){
     showToast('Notes saved');
   }catch(e){showToast('Notes saved locally')}
 }
+
 async function loadContactOverrides(){
   try{
     const{data}=await db.from('contact_overrides').select('*');
@@ -624,6 +626,7 @@ async function loadContactOverrides(){
     });
   }catch(e){console.log('contact_overrides not loaded')}
 }
+
 async function loadContactHistory(){
   try{
     const{data}=await db.from('conversation_history').select('*').order('created_at',{ascending:false});
@@ -633,6 +636,7 @@ async function loadContactHistory(){
     }
   }catch(e){console.log('conversation_history not loaded')}
 }
+
 async function saveConvoEntry(contactId,result){
   try{
     await db.from('conversation_history').insert({contact_id:contactId,archetype:result.archetype,stage:result.stage,stage_number:result.stageNumber,emotional_temp:result.emotionalTemp,tension_detected:result.tensionDetected,power_frame:result.powerFrame,coaching:result.coaching,next_move:result.nextMove,generated_message:result.message});
@@ -640,19 +644,23 @@ async function saveConvoEntry(contactId,result){
     contactConvoHistory[contactId].unshift({contact_id:contactId,archetype:result.archetype,stage:result.stage,coaching:result.coaching,next_move:result.nextMove,generated_message:result.message,created_at:new Date().toISOString()});
   }catch(e){console.log('Could not save convo history')}
 }
+
 function renderCoachContactBar(){
   buildContactsFromLogs();
-  document.getElementById('coachContactBar').innerHTML=allContacts.map(c=>`<div class="contact-pill${selectedCoachContact===c.id?' active':''}" data-id="${c.id}" onclick="selectCoachContact('${c.id}',this)">${c.icon} ${c.name.split(' ')[0]}</div>`).join('');
+  document.getElementById('coachContactBar').innerHTML=allContacts.map(c=>`<div class="contact-pill${selectedCoachContact===c.id?' active':''}" onclick="selectCoachContact('${c.id}',this)">${c.icon} ${c.name.split(' ')[0]}</div>`).join('');
 }
+
 function selectCoachContact(id,el){
   document.querySelectorAll('.contact-pill').forEach(p=>p.classList.remove('active'));
   if(selectedCoachContact===id){selectedCoachContact=null}else{selectedCoachContact=id;el.classList.add('active')}
 }
+
 function goCoachContact(id){
   selectedCoachContact=id;
   document.querySelectorAll('.top-nav button')[1].click();
   renderCoachContactBar();
 }
+
 function setToday(){document.getElementById('logDatePicker').value=todayStr();onDateChange()}
 function onDateChange(){
   const sel=document.getElementById('logDatePicker').value;if(!sel)return;
@@ -775,7 +783,7 @@ async function analyzeConversation(){
   document.getElementById('coachResults').style.display='none';
   buildContactsFromLogs();
   const contact=selectedCoachContact?allContacts.find(c=>c.id===selectedCoachContact):null;
-  const ctx=contact?`\n\nCONTACT PROFILE: ${contact.name} (${contact.archetype}). Known tension: ${contact.tension?.join(', ')||'none'}. Current stage: ${contact.pipelineStage||contact.stage}. Reach-out count: ${contact.reachOutCount||0}. Last interaction: ${contact.lastInteraction||'unknown'}. Notes: ${contact.notes||'none'}`:'';
+  const ctx=contact?`\n\nCONTACT PROFILE: ${contact.name} (${contact.archetype}). Known tension: ${contact.tension?.join(', ')||'none'}. Current stage: ${contact.pipelineStage||''}. Reach-out count: ${contact.reachOutCount||0}. Last interaction: ${contact.lastInteraction||'unknown'}. Notes: ${contact.notes||'none'}`:'';
   const prompt=tv?`Conversation:\n${tv}${ctx}`:sv?`Conversation summary:\n${sv}${ctx}`:`Analyze the conversation in this screenshot.${ctx}`;
   try{
     const result=hasImg?await callClaudeImg(coachImageBase64,coachImageMime,prompt,COACH_SYSTEM):await callClaude(prompt,COACH_SYSTEM,true);
