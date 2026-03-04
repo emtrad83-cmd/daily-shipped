@@ -559,7 +559,7 @@ let coachImageBase64=null, coachImageMime='image/jpeg', selectedCoachProspectId=
 const $ = id => document.getElementById(id);
 function setSyncStatus(s,l){$('syncDot').className='sync-dot '+s;$('syncLabel').textContent=l}
 function showToast(m){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
-function todayStr(){return new Date().toISOString().split('T')[0]}
+function todayStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function formatDateDisplay(d){return new Date(d+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}
 function formatDateShort(d){return new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}
 function slugify(n){return n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
