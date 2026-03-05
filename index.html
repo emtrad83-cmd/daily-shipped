@@ -1281,7 +1281,7 @@ Be direct, specific, and actionable. Format clearly with labeled sections.`;
     out.textContent = text;
   } catch(e) {
     out.className = 'coach-output';
-    out.textContent = 'Error reaching Claude API. Check your connection.';
+    out.textContent = 'DEBUG: ' + e.message + ' | ' + CLAUDE_API;
   }
 }
 
