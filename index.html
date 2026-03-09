@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -24,297 +25,299 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text1); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
 
-  /* HEADER */
-  .header {
-    background: linear-gradient(135deg, #0d0d1e 0%, #151528 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 20px 0;
-    position: sticky; top: 0; z-index: 100;
-  }
-  .header-top {
-    display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
-  }
-  .logo { font-size: .72rem; font-weight: 700; letter-spacing: .18em; color: var(--accent); text-transform: uppercase; }
-  .master-bar {
-    display: flex; align-items: center; gap: 10px; font-size: .7rem; color: var(--text2);
-  }
-  .master-badge {
-    background: linear-gradient(90deg, var(--gold), #e0a030);
-    color: #0a0a12; font-weight: 800; font-size: .62rem; letter-spacing: .1em;
-    padding: 3px 9px; border-radius: 20px; text-transform: uppercase;
-  }
-  .master-steps { display: flex; gap: 6px; }
-  .master-step {
-    width: 28px; height: 6px; border-radius: 3px;
-    background: var(--bg3); border: 1px solid var(--border2);
-    transition: background .3s;
-  }
-  .master-step.done { background: var(--gold); border-color: var(--gold); }
+/* HEADER */
+.header {
+background: linear-gradient(135deg, #0d0d1e 0%, #151528 100%);
+border-bottom: 1px solid var(–border);
+padding: 14px 20px 0;
+position: sticky; top: 0; z-index: 100;
+}
+.header-top {
+display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+}
+.logo { font-size: .72rem; font-weight: 700; letter-spacing: .18em; color: var(–accent); text-transform: uppercase; }
+.master-bar {
+display: flex; align-items: center; gap: 10px; font-size: .7rem; color: var(–text2);
+}
+.master-badge {
+background: linear-gradient(90deg, var(–gold), #e0a030);
+color: #0a0a12; font-weight: 800; font-size: .62rem; letter-spacing: .1em;
+padding: 3px 9px; border-radius: 20px; text-transform: uppercase;
+}
+.master-steps { display: flex; gap: 6px; }
+.master-step {
+width: 28px; height: 6px; border-radius: 3px;
+background: var(–bg3); border: 1px solid var(–border2);
+transition: background .3s;
+}
+.master-step.done { background: var(–gold); border-color: var(–gold); }
 
-  /* TABS */
-  .tabs { display: flex; gap: 2px; }
-  .tab {
-    padding: 8px 16px; font-size: .72rem; font-weight: 600; letter-spacing: .06em;
-    color: var(--text3); border: none; background: transparent; cursor: pointer;
-    border-bottom: 2px solid transparent; transition: all .2s; text-transform: uppercase;
-  }
-  .tab:hover { color: var(--text2); }
-  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+/* TABS */
+.tabs { display: flex; gap: 2px; }
+.tab {
+padding: 8px 16px; font-size: .72rem; font-weight: 600; letter-spacing: .06em;
+color: var(–text3); border: none; background: transparent; cursor: pointer;
+border-bottom: 2px solid transparent; transition: all .2s; text-transform: uppercase;
+}
+.tab:hover { color: var(–text2); }
+.tab.active { color: var(–accent); border-bottom-color: var(–accent); }
 
-  /* CONTENT */
-  .content { padding: 20px; max-width: 800px; margin: 0 auto; }
-  .section { display: none; }
-  .section.active { display: block; }
+/* CONTENT */
+.content { padding: 20px; max-width: 800px; margin: 0 auto; }
+.section { display: none; }
+.section.active { display: block; }
 
-  /* CARDS */
-  .card {
-    background: var(--bg2); border: 1px solid var(--border);
-    border-radius: 10px; padding: 16px; margin-bottom: 14px;
-  }
-  .card-title {
-    font-size: .68rem; font-weight: 700; letter-spacing: .12em;
-    color: var(--text3); text-transform: uppercase; margin-bottom: 12px;
-  }
+/* CARDS */
+.card {
+background: var(–bg2); border: 1px solid var(–border);
+border-radius: 10px; padding: 16px; margin-bottom: 14px;
+}
+.card-title {
+font-size: .68rem; font-weight: 700; letter-spacing: .12em;
+color: var(–text3); text-transform: uppercase; margin-bottom: 12px;
+}
 
-  /* FORM ELEMENTS */
-  input[type=text], input[type=date], textarea, select {
-    width: 100%; background: var(--bg3); border: 1px solid var(--border);
-    color: var(--text1); padding: 9px 12px; border-radius: 6px;
-    font-size: .82rem; outline: none; transition: border .2s;
-    font-family: inherit;
-  }
-  input[type=text]:focus, input[type=date]:focus, textarea:focus, select:focus {
-    border-color: var(--accent);
-  }
-  textarea { resize: vertical; min-height: 70px; }
-  select { cursor: pointer; }
-  label { font-size: .72rem; color: var(--text2); display: block; margin-bottom: 4px; margin-top: 10px; }
-  label:first-child { margin-top: 0; }
+/* FORM ELEMENTS */
+input[type=text], input[type=date], textarea, select {
+width: 100%; background: var(–bg3); border: 1px solid var(–border);
+color: var(–text1); padding: 9px 12px; border-radius: 6px;
+font-size: .82rem; outline: none; transition: border .2s;
+font-family: inherit;
+}
+input[type=text]:focus, input[type=date]:focus, textarea:focus, select:focus {
+border-color: var(–accent);
+}
+textarea { resize: vertical; min-height: 70px; }
+select { cursor: pointer; }
+label { font-size: .72rem; color: var(–text2); display: block; margin-bottom: 4px; margin-top: 10px; }
+label:first-child { margin-top: 0; }
 
-  /* BUTTONS */
-  .btn {
-    padding: 9px 18px; border-radius: 6px; font-size: .78rem; font-weight: 600;
-    cursor: pointer; border: none; transition: all .2s; letter-spacing: .04em;
-  }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { background: #7c74ff; }
-  .btn-secondary { background: var(--bg3); color: var(--text2); border: 1px solid var(--border2); }
-  .btn-secondary:hover { background: var(--bg4); color: var(--text1); }
-  .btn-success { background: var(--accent2); color: #0a0a12; }
-  .btn-success:hover { background: #00e8bb; }
-  .btn-danger { background: #cc3355; color: #fff; }
-  .btn-danger:hover { background: #dd4466; }
-  .btn-sm { padding: 5px 12px; font-size: .7rem; }
-  .btn-gold { background: var(--gold); color: #0a0a12; }
-  .btn-gold:hover { background: #f0d080; }
-  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+/* BUTTONS */
+.btn {
+padding: 9px 18px; border-radius: 6px; font-size: .78rem; font-weight: 600;
+cursor: pointer; border: none; transition: all .2s; letter-spacing: .04em;
+}
+.btn-primary { background: var(–accent); color: #fff; }
+.btn-primary:hover { background: #7c74ff; }
+.btn-secondary { background: var(–bg3); color: var(–text2); border: 1px solid var(–border2); }
+.btn-secondary:hover { background: var(–bg4); color: var(–text1); }
+.btn-success { background: var(–accent2); color: #0a0a12; }
+.btn-success:hover { background: #00e8bb; }
+.btn-danger { background: #cc3355; color: #fff; }
+.btn-danger:hover { background: #dd4466; }
+.btn-sm { padding: 5px 12px; font-size: .7rem; }
+.btn-gold { background: var(–gold); color: #0a0a12; }
+.btn-gold:hover { background: #f0d080; }
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
 
-  /* CHECKBOX GRID */
-  .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .check-item {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--bg3); border: 1px solid var(--border);
-    border-radius: 6px; padding: 8px 10px; cursor: pointer; transition: all .2s;
-  }
-  .check-item.checked { border-color: var(--accent); background: rgba(108,99,255,.1); }
-  .check-item.checked.fitness { border-color: var(--accent2); background: rgba(0,212,170,.08); }
-  .check-box {
-    width: 16px; height: 16px; border: 2px solid var(--border2);
-    border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-    transition: all .2s; font-size: .65rem;
-  }
-  .check-item.checked .check-box { background: var(--accent); border-color: var(--accent); }
-  .check-item.checked.fitness .check-box { background: var(--accent2); border-color: var(--accent2); }
-  .check-label { font-size: .75rem; color: var(--text2); }
-  .check-item.checked .check-label { color: var(--text1); }
+/* CHECKBOX GRID */
+.check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.check-item {
+display: flex; align-items: center; gap: 8px;
+background: var(–bg3); border: 1px solid var(–border);
+border-radius: 6px; padding: 8px 10px; cursor: pointer; transition: all .2s;
+}
+.check-item.checked { border-color: var(–accent); background: rgba(108,99,255,.1); }
+.check-item.checked.fitness { border-color: var(–accent2); background: rgba(0,212,170,.08); }
+.check-box {
+width: 16px; height: 16px; border: 2px solid var(–border2);
+border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+transition: all .2s; font-size: .65rem;
+}
+.check-item.checked .check-box { background: var(–accent); border-color: var(–accent); }
+.check-item.checked.fitness .check-box { background: var(–accent2); border-color: var(–accent2); }
+.check-label { font-size: .75rem; color: var(–text2); }
+.check-item.checked .check-label { color: var(–text1); }
 
-  /* REACH OUTS */
-  .reach-out-row { display: flex; gap: 8px; margin-bottom: 6px; align-items: center; }
-  .reach-out-row input { flex: 1; }
-  .remove-btn { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 1rem; padding: 0 4px; }
-  .remove-btn:hover { color: var(--accent3); }
+/* REACH OUTS */
+.reach-out-row { display: flex; gap: 8px; margin-bottom: 6px; align-items: center; }
+.reach-out-row input { flex: 1; }
+.remove-btn { background: none; border: none; color: var(–text3); cursor: pointer; font-size: 1rem; padding: 0 4px; }
+.remove-btn:hover { color: var(–accent3); }
 
-  /* SHIPPED STATUS */
-  .shipped-status {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 16px; border-radius: 8px; margin-top: 12px;
-    border: 1px solid var(--border);
-  }
-  .shipped-status.shipped { background: rgba(0,212,170,.08); border-color: var(--accent2); }
-  .shipped-status.not-shipped { background: rgba(255,101,132,.05); border-color: rgba(255,101,132,.3); }
-  .shipped-label { font-size: .9rem; font-weight: 700; }
-  .shipped-status.shipped .shipped-label { color: var(--accent2); }
-  .shipped-status.not-shipped .shipped-label { color: var(--accent3); }
+/* SHIPPED STATUS */
+.shipped-status {
+display: flex; align-items: center; justify-content: space-between;
+padding: 12px 16px; border-radius: 8px; margin-top: 12px;
+border: 1px solid var(–border);
+}
+.shipped-status.shipped { background: rgba(0,212,170,.08); border-color: var(–accent2); }
+.shipped-status.not-shipped { background: rgba(255,101,132,.05); border-color: rgba(255,101,132,.3); }
+.shipped-label { font-size: .9rem; font-weight: 700; }
+.shipped-status.shipped .shipped-label { color: var(–accent2); }
+.shipped-status.not-shipped .shipped-label { color: var(–accent3); }
 
-  /* PIPELINE */
-  .pipeline-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
-  .filter-btn {
-    padding: 5px 12px; border-radius: 20px; font-size: .68rem; font-weight: 600;
-    cursor: pointer; border: 1px solid var(--border2); background: var(--bg3);
-    color: var(--text3); transition: all .2s; letter-spacing: .04em;
-  }
-  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+/* PIPELINE */
+.pipeline-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.filter-btn {
+padding: 5px 12px; border-radius: 20px; font-size: .68rem; font-weight: 600;
+cursor: pointer; border: 1px solid var(–border2); background: var(–bg3);
+color: var(–text3); transition: all .2s; letter-spacing: .04em;
+}
+.filter-btn.active { background: var(–accent); border-color: var(–accent); color: #fff; }
 
-  .prospect-card {
-    background: var(--bg2); border: 1px solid var(--border);
-    border-radius: 10px; padding: 14px; margin-bottom: 10px; cursor: pointer;
-    transition: all .2s;
-  }
-  .prospect-card:hover { border-color: var(--border2); background: var(--bg3); }
-  .prospect-card.open { border-color: var(--accent); }
-  .prospect-header { display: flex; align-items: center; justify-content: space-between; }
-  .prospect-name { font-size: .92rem; font-weight: 700; color: var(--text1); }
-  .prospect-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
-  .stage-tag {
-    font-size: .62rem; font-weight: 700; letter-spacing: .08em;
-    padding: 2px 8px; border-radius: 10px; text-transform: uppercase;
-  }
-  .warmth-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .prospect-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
-  .prospect-card.open .prospect-detail { display: block; }
-  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.prospect-card {
+background: var(–bg2); border: 1px solid var(–border);
+border-radius: 10px; padding: 14px; margin-bottom: 10px; cursor: pointer;
+transition: all .2s;
+}
+.prospect-card:hover { border-color: var(–border2); background: var(–bg3); }
+.prospect-card.open { border-color: var(–accent); }
+.prospect-header { display: flex; align-items: center; justify-content: space-between; }
+.prospect-name { font-size: .92rem; font-weight: 700; color: var(–text1); }
+.prospect-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.stage-tag {
+font-size: .62rem; font-weight: 700; letter-spacing: .08em;
+padding: 2px 8px; border-radius: 10px; text-transform: uppercase;
+}
+.warmth-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.prospect-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(–border); }
+.prospect-card.open .prospect-detail { display: block; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  /* STAGE COLORS */
-  .stage-new { background: rgba(108,99,255,.15); color: var(--accent); }
-  .stage-sample { background: rgba(0,212,170,.12); color: var(--accent2); }
-  .stage-sixw { background: rgba(240,192,96,.12); color: var(--gold); }
-  .stage-briefing { background: rgba(255,140,66,.12); color: var(--warn); }
-  .stage-mentor { background: rgba(0,212,170,.25); color: #00ffcc; }
-  .stage-nurture { background: rgba(90,84,117,.3); color: var(--text2); }
-  .stage-pass { background: rgba(255,101,132,.1); color: var(--accent3); }
-  .stage-gold { background: rgba(240,192,96,.2); color: var(--gold); }
+/* STAGE COLORS */
+.stage-new { background: rgba(108,99,255,.15); color: var(–accent); }
+.stage-sample { background: rgba(0,212,170,.12); color: var(–accent2); }
+.stage-sixw { background: rgba(240,192,96,.12); color: var(–gold); }
+.stage-briefing { background: rgba(255,140,66,.12); color: var(–warn); }
+.stage-mentor { background: rgba(0,212,170,.25); color: #00ffcc; }
+.stage-nurture { background: rgba(90,84,117,.3); color: var(–text2); }
+.stage-pass { background: rgba(255,101,132,.1); color: var(–accent3); }
+.stage-gold { background: rgba(240,192,96,.2); color: var(–gold); }
 
-  /* WARMTH COLORS */
-  .warm-hot { background: #ff6060; }
-  .warm-warm { background: var(--warn); }
-  .warm-cool { background: #60aaff; }
-  .warm-cold { background: var(--text3); }
+/* WARMTH COLORS */
+.warm-hot { background: #ff6060; }
+.warm-warm { background: var(–warn); }
+.warm-cool { background: #60aaff; }
+.warm-cold { background: var(–text3); }
 
-  /* COACH */
-  .coach-select { margin-bottom: 14px; }
-  .coach-prospect-btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 6px 12px; border-radius: 6px; font-size: .75rem; font-weight: 600;
-    border: 1px solid var(--border2); background: var(--bg3); color: var(--text2);
-    cursor: pointer; margin: 4px; transition: all .2s;
-  }
-  .coach-prospect-btn.selected { border-color: var(--accent); color: var(--accent); background: rgba(108,99,255,.1); }
-  .coach-msg-area { margin-top: 12px; }
-  .coach-output {
-    background: var(--bg3); border: 1px solid var(--border);
-    border-radius: 8px; padding: 14px; margin-top: 12px;
-    font-size: .82rem; line-height: 1.65; color: var(--text1);
-    white-space: pre-wrap; min-height: 80px;
-  }
-  .coach-output.loading { color: var(--text3); font-style: italic; }
-  .thinking-dots::after {
-    content: '...'; animation: dots 1.2s infinite;
-  }
-  @keyframes dots { 0%,20%{content:'.'} 40%{content:'..'} 60%,100%{content:'...'} }
+/* COACH */
+.coach-select { margin-bottom: 14px; }
+.coach-prospect-btn {
+display: inline-flex; align-items: center; gap: 6px;
+padding: 6px 12px; border-radius: 6px; font-size: .75rem; font-weight: 600;
+border: 1px solid var(–border2); background: var(–bg3); color: var(–text2);
+cursor: pointer; margin: 4px; transition: all .2s;
+}
+.coach-prospect-btn.selected { border-color: var(–accent); color: var(–accent); background: rgba(108,99,255,.1); }
+.coach-msg-area { margin-top: 12px; }
+.coach-output {
+background: var(–bg3); border: 1px solid var(–border);
+border-radius: 8px; padding: 14px; margin-top: 12px;
+font-size: .82rem; line-height: 1.65; color: var(–text1);
+white-space: pre-wrap; min-height: 80px;
+}
+.coach-output.loading { color: var(–text3); font-style: italic; }
+.thinking-dots::after {
+content: ‘…’; animation: dots 1.2s infinite;
+}
+@keyframes dots { 0%,20%{content:’.’} 40%{content:’..’} 60%,100%{content:’…’} }
 
-  /* HISTORY */
-  .history-item {
-    background: var(--bg2); border: 1px solid var(--border);
-    border-radius: 8px; margin-bottom: 8px; overflow: hidden;
-  }
-  .history-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 14px; cursor: pointer;
-  }
-  .history-header:hover { background: var(--bg3); }
-  .history-date { font-size: .82rem; font-weight: 600; color: var(--text1); }
-  .history-body { display: none; padding: 12px 14px; border-top: 1px solid var(--border); }
-  .history-item.open .history-body { display: block; }
-  .shipped-pill {
-    font-size: .6rem; font-weight: 700; letter-spacing: .1em;
-    padding: 2px 8px; border-radius: 10px; text-transform: uppercase;
-  }
-  .shipped-pill.yes { background: rgba(0,212,170,.15); color: var(--accent2); }
-  .shipped-pill.no { background: rgba(255,101,132,.1); color: var(--accent3); }
+/* HISTORY */
+.history-item {
+background: var(–bg2); border: 1px solid var(–border);
+border-radius: 8px; margin-bottom: 8px; overflow: hidden;
+}
+.history-header {
+display: flex; align-items: center; justify-content: space-between;
+padding: 12px 14px; cursor: pointer;
+}
+.history-header:hover { background: var(–bg3); }
+.history-date { font-size: .82rem; font-weight: 600; color: var(–text1); }
+.history-body { display: none; padding: 12px 14px; border-top: 1px solid var(–border); }
+.history-item.open .history-body { display: block; }
+.shipped-pill {
+font-size: .6rem; font-weight: 700; letter-spacing: .1em;
+padding: 2px 8px; border-radius: 10px; text-transform: uppercase;
+}
+.shipped-pill.yes { background: rgba(0,212,170,.15); color: var(–accent2); }
+.shipped-pill.no { background: rgba(255,101,132,.1); color: var(–accent3); }
 
-  /* REVIEWS */
-  .review-btn-row { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-  .review-output {
-    background: var(--bg3); border: 1px solid var(--border);
-    border-radius: 8px; padding: 16px; font-size: .84rem; line-height: 1.7;
-    color: var(--text1); white-space: pre-wrap; min-height: 100px;
-  }
+/* REVIEWS */
+.review-btn-row { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.review-output {
+background: var(–bg3); border: 1px solid var(–border);
+border-radius: 8px; padding: 16px; font-size: .84rem; line-height: 1.7;
+color: var(–text1); white-space: pre-wrap; min-height: 100px;
+}
 
-  /* STATS ROW */
-  .stats-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
-  .stat-box {
-    flex: 1; min-width: 80px; background: var(--bg3); border: 1px solid var(--border);
-    border-radius: 8px; padding: 10px 12px; text-align: center;
-  }
-  .stat-val { font-size: 1.4rem; font-weight: 800; color: var(--accent); }
-  .stat-val.green { color: var(--accent2); }
-  .stat-val.gold { color: var(--gold); }
-  .stat-lbl { font-size: .62rem; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
+/* STATS ROW */
+.stats-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.stat-box {
+flex: 1; min-width: 80px; background: var(–bg3); border: 1px solid var(–border);
+border-radius: 8px; padding: 10px 12px; text-align: center;
+}
+.stat-val { font-size: 1.4rem; font-weight: 800; color: var(–accent); }
+.stat-val.green { color: var(–accent2); }
+.stat-val.gold { color: var(–gold); }
+.stat-lbl { font-size: .62rem; color: var(–text3); text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
 
-  /* TOAST */
-  .toast {
-    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px);
-    background: var(--bg4); border: 1px solid var(--border2); color: var(--text1);
-    padding: 10px 20px; border-radius: 8px; font-size: .8rem;
-    transition: transform .3s; z-index: 9999; pointer-events: none;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.success { border-color: var(--accent2); color: var(--accent2); }
-  .toast.error { border-color: var(--accent3); color: var(--accent3); }
+/* TOAST */
+.toast {
+position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px);
+background: var(–bg4); border: 1px solid var(–border2); color: var(–text1);
+padding: 10px 20px; border-radius: 8px; font-size: .8rem;
+transition: transform .3s; z-index: 9999; pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.success { border-color: var(–accent2); color: var(–accent2); }
+.toast.error { border-color: var(–accent3); color: var(–accent3); }
 
-  /* ADD PROSPECT MODAL */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,.7);
-    z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--bg2); border: 1px solid var(--border2);
-    border-radius: 12px; padding: 20px; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto;
-  }
-  .modal-title { font-size: .9rem; font-weight: 700; margin-bottom: 16px; }
-  .modal-close {
-    float: right; background: none; border: none; color: var(--text3);
-    font-size: 1.2rem; cursor: pointer; line-height: 1;
-  }
-  .modal-close:hover { color: var(--text1); }
+/* ADD PROSPECT MODAL */
+.modal-overlay {
+position: fixed; inset: 0; background: rgba(0,0,0,.7);
+z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+background: var(–bg2); border: 1px solid var(–border2);
+border-radius: 12px; padding: 20px; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto;
+}
+.modal-title { font-size: .9rem; font-weight: 700; margin-bottom: 16px; }
+.modal-close {
+float: right; background: none; border: none; color: var(–text3);
+font-size: 1.2rem; cursor: pointer; line-height: 1;
+}
+.modal-close:hover { color: var(–text1); }
 
-  /* CADENCE TRACKER */
-  .cadence-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 8px 0; border-bottom: 1px solid var(--border);
-  }
-  .cadence-row:last-child { border-bottom: none; }
-  .cadence-label { font-size: .78rem; color: var(--text2); }
-  .cadence-count {
-    display: flex; align-items: center; gap: 8px;
-  }
-  .cadence-num { font-size: 1.1rem; font-weight: 800; color: var(--text1); min-width: 24px; text-align: center; }
-  .cadence-target { font-size: .65rem; color: var(--text3); }
-  .cadence-num.met { color: var(--accent2); }
-  .count-btn {
-    width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border2);
-    background: var(--bg3); color: var(--text2); cursor: pointer; font-size: .9rem;
-    display: flex; align-items: center; justify-content: center; transition: all .2s;
-  }
-  .count-btn:hover { background: var(--bg4); color: var(--text1); }
+/* CADENCE TRACKER */
+.cadence-row {
+display: flex; align-items: center; justify-content: space-between;
+padding: 8px 0; border-bottom: 1px solid var(–border);
+}
+.cadence-row:last-child { border-bottom: none; }
+.cadence-label { font-size: .78rem; color: var(–text2); }
+.cadence-count {
+display: flex; align-items: center; gap: 8px;
+}
+.cadence-num { font-size: 1.1rem; font-weight: 800; color: var(–text1); min-width: 24px; text-align: center; }
+.cadence-target { font-size: .65rem; color: var(–text3); }
+.cadence-num.met { color: var(–accent2); }
+.count-btn {
+width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(–border2);
+background: var(–bg3); color: var(–text2); cursor: pointer; font-size: .9rem;
+display: flex; align-items: center; justify-content: center; transition: all .2s;
+}
+.count-btn:hover { background: var(–bg4); color: var(–text1); }
 
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(–bg); }
+::-webkit-scrollbar-thumb { background: var(–border2); border-radius: 3px; }
 
-  @media(max-width:500px) {
-    .check-grid { grid-template-columns: 1fr; }
-    .detail-grid { grid-template-columns: 1fr; }
-    .header-top { flex-direction: column; align-items: flex-start; gap: 8px; }
-    .master-bar { flex-wrap: wrap; }
-  }
+@media(max-width:500px) {
+.check-grid { grid-template-columns: 1fr; }
+.detail-grid { grid-template-columns: 1fr; }
+.header-top { flex-direction: column; align-items: flex-start; gap: 8px; }
+.master-bar { flex-wrap: wrap; }
+}
 </style>
+
 </head>
 <body>
 
 <!-- HEADER -->
+
 <div class="header">
   <div class="header-top">
     <div class="logo">⬡ GU Command Center</div>
@@ -339,9 +342,11 @@
 <div class="content">
 
 <!-- ===== DAILY LOG ===== -->
+
 <div class="section active" id="sec-log">
 
   <!-- Date & Cadence Header -->
+
   <div class="card">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
       <div>
@@ -353,6 +358,7 @@
   </div>
 
   <!-- 5-3-1-6 Cadence -->
+
   <div class="card">
     <div class="card-title">5-3-1-6 Daily Cadence</div>
     <div class="cadence-row">
@@ -390,6 +396,7 @@
   </div>
 
   <!-- Business Actions -->
+
   <div class="card">
     <div class="card-title">Business Actions</div>
     <div class="check-grid">
@@ -417,6 +424,7 @@
   </div>
 
   <!-- People Introduced -->
+
   <div class="card">
     <div class="card-title">People Introduced to GU</div>
     <div id="introList"></div>
@@ -424,6 +432,7 @@
   </div>
 
   <!-- Reach-Outs -->
+
   <div class="card">
     <div class="card-title">Reach-Out Names</div>
     <div id="roList"></div>
@@ -431,6 +440,7 @@
   </div>
 
   <!-- Fitness -->
+
   <div class="card">
     <div class="card-title">Fitness & Recovery</div>
     <div class="check-grid">
@@ -450,12 +460,14 @@
   </div>
 
   <!-- Reflection -->
+
   <div class="card">
     <div class="card-title">Daily Reflection</div>
     <textarea id="reflectionInput" placeholder="What's one thing that moved the needle today? What would you do differently?"></textarea>
   </div>
 
   <!-- Shipped Status -->
+
   <div id="shippedStatus" class="shipped-status not-shipped">
     <div>
       <div class="shipped-label" id="shippedLabel">NOT SHIPPED</div>
@@ -471,6 +483,7 @@
 </div>
 
 <!-- ===== COACH ===== -->
+
 <div class="section" id="sec-coach">
   <div class="card">
     <div class="card-title">Select Prospect</div>
@@ -548,6 +561,7 @@
 </div>
 
 <!-- ===== PIPELINE ===== -->
+
 <div class="section" id="sec-pipeline">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
     <div class="stats-row" style="margin:0;flex:1">
@@ -577,6 +591,7 @@
 </div>
 
 <!-- ===== HISTORY ===== -->
+
 <div class="section" id="sec-history">
   <div class="stats-row">
     <div class="stat-box"><div class="stat-val" id="hist-streak">0</div><div class="stat-lbl">Streak 🔥</div></div>
@@ -588,6 +603,7 @@
 </div>
 
 <!-- ===== REVIEWS ===== -->
+
 <div class="section" id="sec-reviews">
   <div class="card">
     <div class="card-title">AI-Powered Review</div>
@@ -601,11 +617,22 @@
   </div>
 
   <div id="reviewOutput" style="display:none" class="card">
-    <div class="card-title" id="reviewOutputTitle">Review</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div class="card-title" id="reviewOutputTitle" style="margin:0">Review</div>
+      <button class="btn btn-success btn-sm" onclick="saveReview()" id="saveReviewBtn">💾 Save Review</button>
+    </div>
     <div id="reviewOutputContent" class="review-output"></div>
   </div>
 
+  <!-- Saved Reviews -->
+
+  <div class="card">
+    <div class="card-title">Saved Reviews</div>
+    <div id="savedReviewsList" style="font-size:.78rem;color:var(--text2)">Loading...</div>
+  </div>
+
   <!-- Master Mentor Progress -->
+
   <div class="card">
     <div class="card-title">Master Mentor Tracker</div>
     <p style="font-size:.75rem;color:var(--text2);margin-bottom:12px;line-height:1.5">
@@ -632,6 +659,7 @@
   </div>
 
   <!-- Conversation History Log -->
+
   <div class="card">
     <div class="card-title">Conversation History</div>
     <div id="convHistoryList" style="font-size:.78rem;color:var(--text2)">Loading...</div>
@@ -641,6 +669,7 @@
 </div><!-- end content -->
 
 <!-- ADD PROSPECT MODAL -->
+
 <div class="modal-overlay" id="addProspectModal">
   <div class="modal">
     <button class="modal-close" onclick="closeAddProspect()">×</button>
@@ -693,6 +722,7 @@
 </div>
 
 <!-- TOAST -->
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -761,7 +791,7 @@ function switchTab(tab) {
   document.getElementById('sec-' + tab).classList.add('active');
   if (tab === 'history') renderHistory();
   if (tab === 'pipeline') renderPipeline();
-  if (tab === 'reviews') renderConvHistory();
+  if (tab === 'reviews') { renderConvHistory(); renderSavedReviews(); }
   if (tab === 'coach') renderCoachProspects();
 }
 
@@ -1122,160 +1152,175 @@ function renderPipeline() {
         <input type="text" value="${escHtml(p.tension_point||'')}" placeholder="What tension have you detected?" onclick="event.stopPropagation()" onchange="updateProspect('${p.id}','tension_point',this.value)"/>
         <label>Notes</label>
         <textarea style="min-height:60px" onclick="event.stopPropagation()" onchange="updateProspect('${p.id}','notes',this.value)">${escHtml(p.notes||'')}</textarea>
-        <div class="btn-row" style="margin-top:8px">
-          <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();saveProspect('${p.id}')">💾 Save</button>
-          <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();coachThis('${p.id}')">⚡ Coach</button>
-          <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteProspect('${p.id}')">Delete</button>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
+
+```
+    <div class="btn-row" style="margin-top:8px">
+      <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();saveProspect('${p.id}')">💾 Save</button>
+      <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();coachThis('${p.id}')">⚡ Coach</button>
+      <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteProspect('${p.id}')">Delete</button>
+    </div>
+  </div>
+</div>`;
+```
+
+}).join(’’);
 }
 
 function renderPipelineStats() {
-  document.getElementById('pl-total').textContent = prospects.length;
-  document.getElementById('pl-active').textContent = prospects.filter(p => p.stage !== 'Passed').length;
-  document.getElementById('pl-mentors').textContent = prospects.filter(p => p.stage === 'Interview').length;
+document.getElementById(‘pl-total’).textContent = prospects.length;
+document.getElementById(‘pl-active’).textContent = prospects.filter(p => p.stage !== ‘Passed’).length;
+document.getElementById(‘pl-mentors’).textContent = prospects.filter(p => p.stage === ‘Interview’).length;
 }
 
 function toggleProspect(id) {
-  document.getElementById('pc-'+id).classList.toggle('open');
+document.getElementById(‘pc-’+id).classList.toggle(‘open’);
 }
 
 function updateProspect(id, field, value) {
-  const p = prospects.find(x => String(x.id) === String(id));
-  if (p) p[field] = value;
+const p = prospects.find(x => String(x.id) === String(id));
+if (p) p[field] = value;
 }
 
 async function saveProspect(id) {
-  const p = prospects.find(x => String(x.id) === String(id));
-  if (!p) return;
-  const saved = await upsertProspect(p);
-  if (saved) {
-    const idx = prospects.findIndex(x => String(x.id) === String(id));
-    if (idx >= 0) prospects[idx] = saved;
-    showToast('Saved!', 'success');
-    renderPipeline();
-  } else {
-    showToast('Save failed', 'error');
-  }
+const p = prospects.find(x => String(x.id) === String(id));
+if (!p) return;
+const saved = await upsertProspect(p);
+if (saved) {
+const idx = prospects.findIndex(x => String(x.id) === String(id));
+if (idx >= 0) prospects[idx] = saved;
+showToast(‘Saved!’, ‘success’);
+renderPipeline();
+} else {
+showToast(‘Save failed’, ‘error’);
+}
 }
 
 async function deleteProspect(id) {
-  if (!confirm('Delete this prospect?')) return;
-  try {
-    await sb(`prospects?id=eq.${id}`, {method:'DELETE', prefer:''});
-    prospects = prospects.filter(p => String(p.id) !== String(id));
-    renderPipeline();
-    renderCoachProspects();
-    showToast('Deleted', 'success');
-  } catch(e) {
-    showToast('Delete failed', 'error');
-  }
+if (!confirm(‘Delete this prospect?’)) return;
+try {
+await sb(`prospects?id=eq.${id}`, {method:‘DELETE’, prefer:’’});
+prospects = prospects.filter(p => String(p.id) !== String(id));
+renderPipeline();
+renderCoachProspects();
+showToast(‘Deleted’, ‘success’);
+} catch(e) {
+showToast(‘Delete failed’, ‘error’);
+}
 }
 
 function coachThis(id) {
-  const p = prospects.find(x => String(x.id) === String(id));
-  if (!p) return;
-  coachSelectedProspect = p;
-  document.getElementById('coachProspectName').value = p.name;
-  if (p.archetype) document.getElementById('coachArchetype').value = p.archetype;
-  if (p.stage) document.getElementById('coachStage').value = p.stage;
-  if (p.tension_point) document.getElementById('coachTension').value = p.tension_point;
-  // Switch to coach tab
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab')[1].classList.add('active');
-  document.getElementById('sec-coach').classList.add('active');
-  renderCoachProspects();
+const p = prospects.find(x => String(x.id) === String(id));
+if (!p) return;
+coachSelectedProspect = p;
+document.getElementById(‘coachProspectName’).value = p.name;
+if (p.archetype) document.getElementById(‘coachArchetype’).value = p.archetype;
+if (p.stage) document.getElementById(‘coachStage’).value = p.stage;
+if (p.tension_point) document.getElementById(‘coachTension’).value = p.tension_point;
+// Switch to coach tab
+document.querySelectorAll(’.tab’).forEach(t => t.classList.remove(‘active’));
+document.querySelectorAll(’.section’).forEach(s => s.classList.remove(‘active’));
+document.querySelectorAll(’.tab’)[1].classList.add(‘active’);
+document.getElementById(‘sec-coach’).classList.add(‘active’);
+renderCoachProspects();
 }
 
 function filterPipeline(stage, el) {
-  pipelineFilter = stage;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  renderPipeline();
+pipelineFilter = stage;
+document.querySelectorAll(’.filter-btn’).forEach(b => b.classList.remove(‘active’));
+el.classList.add(‘active’);
+renderPipeline();
 }
 
-function openAddProspect() { document.getElementById('addProspectModal').classList.add('open'); }
-function closeAddProspect() { document.getElementById('addProspectModal').classList.remove('open'); }
+function openAddProspect() { document.getElementById(‘addProspectModal’).classList.add(‘open’); }
+function closeAddProspect() { document.getElementById(‘addProspectModal’).classList.remove(‘open’); }
 
 async function saveNewProspect() {
-  const name = document.getElementById('newName').value.trim();
-  if (!name) { showToast('Name is required', 'error'); return; }
-  const p = {
-    name,
-    contact: document.getElementById('newContact').value.trim(),
-    stage: document.getElementById('newStage').value,
-    warmth: document.getElementById('newWarmth').value,
-    archetype: document.getElementById('newArchetype').value,
-    tension_point: document.getElementById('newTension').value.trim(),
-    notes: document.getElementById('newNotes').value.trim(),
-    last_conversation: '',
-    reach_out_count: 1
-  };
-  const saved = await upsertProspect(p);
-  prospects.unshift(saved || {...p, id: Date.now()});
-  renderPipeline();
-  renderCoachProspects();
-  closeAddProspect();
-  showToast(`${name} added to Pipeline`, 'success');
-  ['newName','newContact','newTension','newNotes'].forEach(id => document.getElementById(id).value='');
+const name = document.getElementById(‘newName’).value.trim();
+if (!name) { showToast(‘Name is required’, ‘error’); return; }
+const p = {
+name,
+contact: document.getElementById(‘newContact’).value.trim(),
+stage: document.getElementById(‘newStage’).value,
+warmth: document.getElementById(‘newWarmth’).value,
+archetype: document.getElementById(‘newArchetype’).value,
+tension_point: document.getElementById(‘newTension’).value.trim(),
+notes: document.getElementById(‘newNotes’).value.trim(),
+last_conversation: ‘’,
+reach_out_count: 1
+};
+const saved = await upsertProspect(p);
+prospects.unshift(saved || {…p, id: Date.now()});
+renderPipeline();
+renderCoachProspects();
+closeAddProspect();
+showToast(`${name} added to Pipeline`, ‘success’);
+[‘newName’,‘newContact’,‘newTension’,‘newNotes’].forEach(id => document.getElementById(id).value=’’);
 }
 
 // ─────────────────────────────────────────────
 // COACH
 // ─────────────────────────────────────────────
 function renderCoachProspects() {
-  const c = document.getElementById('coachProspectBtns');
-  c.innerHTML = prospects.filter(p => p.stage !== 'Passed').map(p =>
-    `<button class="coach-prospect-btn ${coachSelectedProspect && coachSelectedProspect.id === p.id ? 'selected' : ''}"
-      onclick="selectCoachProspect('${p.id}')">
-      <div class="warmth-dot ${warmthCSS(p.warmth)}" style="width:6px;height:6px"></div>
-      ${escHtml(p.name)}
-    </button>`
-  ).join('');
+const c = document.getElementById(‘coachProspectBtns’);
+c.innerHTML = prospects.filter(p => p.stage !== ‘Passed’).map(p =>
+`<button class="coach-prospect-btn ${coachSelectedProspect && coachSelectedProspect.id === p.id ? 'selected' : ''}" onclick="selectCoachProspect('${p.id}')"> <div class="warmth-dot ${warmthCSS(p.warmth)}" style="width:6px;height:6px"></div> ${escHtml(p.name)} </button>`
+).join(’’);
 }
 
 function selectCoachProspect(id) {
-  const p = prospects.find(x => String(x.id) === String(id));
-  if (!p) return;
-  coachSelectedProspect = p;
-  document.getElementById('coachProspectName').value = p.name;
-  if (p.archetype) document.getElementById('coachArchetype').value = p.archetype;
-  if (p.stage) document.getElementById('coachStage').value = p.stage;
-  if (p.tension_point) document.getElementById('coachTension').value = p.tension_point;
-  renderCoachProspects();
+const p = prospects.find(x => String(x.id) === String(id));
+if (!p) return;
+coachSelectedProspect = p;
+document.getElementById(‘coachProspectName’).value = p.name;
+if (p.archetype) document.getElementById(‘coachArchetype’).value = p.archetype;
+if (p.stage) document.getElementById(‘coachStage’).value = p.stage;
+if (p.tension_point) document.getElementById(‘coachTension’).value = p.tension_point;
+renderCoachProspects();
+renderProspectHistory(p.name);
 }
 
 async function runCoach() {
-  const name = document.getElementById('coachProspectName').value.trim() || 'this prospect';
-  const archetype = document.getElementById('coachArchetype').value;
-  const stage = document.getElementById('coachStage').value;
-  const temp = document.getElementById('coachTemp').value;
-  const context = document.getElementById('coachContext').value.trim();
-  const tension = document.getElementById('coachTension').value.trim();
-  const goal = document.getElementById('coachGoal').value;
+const name = document.getElementById(‘coachProspectName’).value.trim() || ‘this prospect’;
+const archetype = document.getElementById(‘coachArchetype’).value;
+const stage = document.getElementById(‘coachStage’).value;
+const temp = document.getElementById(‘coachTemp’).value;
+const context = document.getElementById(‘coachContext’).value.trim();
+const tension = document.getElementById(‘coachTension’).value.trim();
+const goal = document.getElementById(‘coachGoal’).value;
 
-  const out = document.getElementById('coachOutput');
-  out.style.display = 'block';
-  out.className = 'coach-output loading';
-  out.innerHTML = '<span class="thinking-dots">Thinking</span>';
+const out = document.getElementById(‘coachOutput’);
+out.style.display = ‘block’;
+out.className = ‘coach-output loading’;
+out.innerHTML = ‘<span class="thinking-dots">Thinking</span>’;
 
-  const prompt = `You are Evan's GU (Givers University) conversation coach. Evan is a Senior Mentor advancing toward Master Mentor. His philosophy: "Give more to gain more." He uses the 6-W conversation process to authentically surface tension points and guide people toward a sample, 6-W conversation, or briefing.
+// Load prior history for this prospect
+const priorHistory = convHistory
+.filter(h => h.prospect_name && h.prospect_name.toLowerCase() === name.toLowerCase())
+.slice(0, 8)
+.reverse();
+const historyStr = priorHistory.length
+? priorHistory.map(h => `[${h.date}] Stage: ${h.stage||''} | Notes: ${h.notes||''} | Context: ${h.context||''}`).join(’\n’)
+: ‘No prior conversations logged.’;
+
+const prompt = `You are Evan’s GU (Givers University) conversation coach. Evan is a Senior Mentor advancing toward Master Mentor. His philosophy: “Give more to gain more.” He uses the 6-W conversation process to authentically surface tension points and guide people toward a sample, 6-W conversation, or briefing.
 
 PROSPECT: ${name}
-ARCHETYPE: ${archetype || 'Unknown'}
+ARCHETYPE: ${archetype || ‘Unknown’}
 CURRENT STAGE: ${stage}
 EMOTIONAL TEMPERATURE: ${temp}
-WHAT THEY SAID / CONTEXT: ${context || '(not provided)'}
-TENSION POINT DETECTED: ${tension || '(not identified yet)'}
+WHAT THEY SAID / CONTEXT: ${context || ‘(not provided)’}
+TENSION POINT DETECTED: ${tension || ‘(not identified yet)’}
 GOAL FOR THIS RESPONSE: ${goal}
 
+PRIOR CONVERSATION HISTORY WITH ${name.toUpperCase()}:
+${historyStr}
+
 COACH GUIDELINES:
-- Always use strengths-based language: say "investing your time/energy" not "taking up your time"
+
+- Always use strengths-based language: say “investing your time/energy” not “taking up your time”
+- Use the prior conversation history to inform your coaching — reference what has already been discussed, avoid repeating approaches that didn’t move the needle
 - Match the pacing to the temperature: slower with guarded, sharper with analytical, softer with caregivers
-- Move the conversation from depth/tension → desire window → invitation — don't stay in rapport too long
+- Move the conversation from depth/tension → desire window → invitation — don’t stay in rapport too long
 - Evan is NOT convincing or selling — he is calmly evaluating fit
 - Never over-explain GU. One bridge at a time.
 - If the archetype is a caregiver, lead with empathy before any invitation
@@ -1284,135 +1329,147 @@ COACH GUIDELINES:
 
 Be direct, specific, and actionable. Format clearly with labeled sections.`;
 
-  try {
-    const res = await fetch(CLAUDE_API, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{role:'user', content: prompt}]
-      })
-    });
-    const data = await res.json();
-    const text = data.content?.map(b => b.text||'').join('') || 'No response received.';
-    out.className = 'coach-output';
-    out.textContent = text;
-  } catch(e) {
-    out.className = 'coach-output';
-    out.textContent = 'DEBUG: ' + e.message + ' | ' + CLAUDE_API;
-  }
+try {
+const res = await fetch(CLAUDE_API, {
+method: ‘POST’,
+headers: {
+‘Content-Type’: ‘application/json’,
+‘anthropic-version’: ‘2023-06-01’
+},
+body: JSON.stringify({
+model: ‘claude-sonnet-4-20250514’,
+max_tokens: 1000,
+messages: [{role:‘user’, content: prompt}]
+})
+});
+const data = await res.json();
+const text = data.content?.map(b => b.text||’’).join(’’) || ‘No response received.’;
+out.className = ‘coach-output’;
+out.textContent = text;
+// Store coaching output for auto-save
+window._lastCoachOutput = text;
+// Show prospect history panel
+renderProspectHistory(name);
+} catch(e) {
+out.className = ‘coach-output’;
+out.textContent = ’DEBUG: ’ + e.message + ’ | ’ + CLAUDE_API;
+}
 }
 
 function clearCoach() {
-  document.getElementById('coachProspectName').value = '';
-  document.getElementById('coachContext').value = '';
-  document.getElementById('coachTension').value = '';
-  document.getElementById('coachOutput').style.display = 'none';
-  document.getElementById('saveConvNotes').value = '';
-  coachSelectedProspect = null;
-  renderCoachProspects();
+document.getElementById(‘coachProspectName’).value = ‘’;
+document.getElementById(‘coachContext’).value = ‘’;
+document.getElementById(‘coachTension’).value = ‘’;
+document.getElementById(‘coachOutput’).style.display = ‘none’;
+document.getElementById(‘saveConvNotes’).value = ‘’;
+coachSelectedProspect = null;
+renderCoachProspects();
 }
 
 async function saveConversation() {
-  const name = document.getElementById('coachProspectName').value.trim();
-  const notes = document.getElementById('saveConvNotes').value.trim();
-  if (!name) { showToast('Select a prospect first', 'error'); return; }
-  const entry = {
-    prospect_name: name,
-    date: getTodayStr(),
-    stage: document.getElementById('coachStage').value,
-    tension_point: document.getElementById('coachTension').value.trim(),
-    notes,
-    context: document.getElementById('coachContext').value.trim()
-  };
-  try {
-    const res = await sb('conversation_history', {
-      method: 'POST', prefer: 'return=representation', body: JSON.stringify(entry)
-    });
-    convHistory.unshift(Array.isArray(res) ? res[0] : entry);
-    showToast('Conversation saved!', 'success');
-    document.getElementById('saveConvNotes').value = '';
-    // Update last_conversation on prospect
-    if (coachSelectedProspect) {
-      coachSelectedProspect.last_conversation = getTodayStr();
-      await upsertProspect(coachSelectedProspect);
-    }
-  } catch(e) {
-    showToast('Failed to save conversation', 'error');
-  }
+const name = document.getElementById(‘coachProspectName’).value.trim();
+const notes = document.getElementById(‘saveConvNotes’).value.trim();
+if (!name) { showToast(‘Select a prospect first’, ‘error’); return; }
+const entry = {
+prospect_name: name,
+date: getTodayStr(),
+stage: document.getElementById(‘coachStage’).value,
+tension_point: document.getElementById(‘coachTension’).value.trim(),
+notes,
+context: document.getElementById(‘coachContext’).value.trim(),
+coaching_output: window._lastCoachOutput || ‘’
+};
+try {
+const res = await sb(‘conversation_history’, {
+method: ‘POST’, prefer: ‘return=representation’, body: JSON.stringify(entry)
+});
+convHistory.unshift(Array.isArray(res) ? res[0] : entry);
+showToast(‘Conversation saved!’, ‘success’);
+document.getElementById(‘saveConvNotes’).value = ‘’;
+window._lastCoachOutput = ‘’;
+// Update last_conversation on prospect
+if (coachSelectedProspect) {
+coachSelectedProspect.last_conversation = getTodayStr();
+await upsertProspect(coachSelectedProspect);
+}
+renderProspectHistory(name);
+} catch(e) {
+showToast(‘Failed to save conversation’, ‘error’);
+}
 }
 
 async function loadConvHistory() {
-  try {
-    convHistory = await sb('conversation_history?order=date.desc&limit=50');
-  } catch(e) {
-    console.error('loadConvHistory:', e);
-    convHistory = [];
-  }
+try {
+convHistory = await sb(‘conversation_history?order=date.desc&limit=50’);
+} catch(e) {
+console.error(‘loadConvHistory:’, e);
+convHistory = [];
+}
 }
 
 function renderConvHistory() {
-  const c = document.getElementById('convHistoryList');
-  if (!convHistory.length) {
-    c.innerHTML = '<div style="color:var(--text3)">No conversations saved yet. Use the Coach tab to log conversations.</div>';
-    return;
-  }
-  c.innerHTML = convHistory.map(h => `
-    <div style="padding:10px 0;border-bottom:1px solid var(--border)">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <span style="font-weight:700;color:var(--text1);font-size:.82rem">${escHtml(h.prospect_name)}</span>
-        <span style="font-size:.65rem;color:var(--text3)">${formatDateDisplay(h.date)}</span>
-      </div>
-      <div style="margin-top:4px;font-size:.7rem">
-        <span class="stage-tag ${stageCSS(h.stage)}" style="font-size:.6rem">${h.stage||''}</span>
-        ${h.tension_point ? `<span style="color:var(--text3);margin-left:6px">⚡ ${escHtml(h.tension_point)}</span>` : ''}
-      </div>
-      ${h.notes ? `<div style="margin-top:6px;font-size:.74rem;color:var(--text2)">${escHtml(h.notes)}</div>` : ''}
-    </div>
-  `).join('');
+const c = document.getElementById(‘convHistoryList’);
+if (!convHistory.length) {
+c.innerHTML = ‘<div style="color:var(--text3)">No conversations saved yet. Use the Coach tab to log conversations.</div>’;
+return;
+}
+c.innerHTML = convHistory.map(h => `<div style="padding:10px 0;border-bottom:1px solid var(--border)"> <div style="display:flex;justify-content:space-between;align-items:center"> <span style="font-weight:700;color:var(--text1);font-size:.82rem">${escHtml(h.prospect_name)}</span> <span style="font-size:.65rem;color:var(--text3)">${formatDateDisplay(h.date)}</span> </div> <div style="margin-top:4px;font-size:.7rem"> <span class="stage-tag ${stageCSS(h.stage)}" style="font-size:.6rem">${h.stage||''}</span> ${h.tension_point ?`<span style="color:var(--text3);margin-left:6px">⚡ ${escHtml(h.tension_point)}</span>`: ''} </div> ${h.notes ?`<div style="margin-top:6px;font-size:.74rem;color:var(--text2)">${escHtml(h.notes)}</div>`: ''} </div>`).join(’’);
+}
+
+function renderProspectHistory(name) {
+const card = document.getElementById(‘prospectHistoryCard’);
+const list = document.getElementById(‘prospectHistoryList’);
+if (!name) { card.style.display = ‘none’; return; }
+const history = convHistory
+.filter(h => h.prospect_name && h.prospect_name.toLowerCase() === name.toLowerCase())
+.slice(0, 20);
+if (!history.length) {
+card.style.display = ‘none’;
+return;
+}
+card.style.display = ‘block’;
+list.innerHTML = history.map(h => `<div style="padding:10px 0;border-bottom:1px solid var(--border)"> <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"> <span class="stage-tag ${stageCSS(h.stage)}" style="font-size:.6rem">${h.stage||''}</span> <span style="font-size:.65rem;color:var(--text3)">${formatDateDisplay(h.date)}</span> </div> ${h.tension_point ?`<div style="font-size:.7rem;color:var(--warn);margin-bottom:3px">⚡ ${escHtml(h.tension_point)}</div>`: ''} ${h.context ?`<div style="font-size:.72rem;color:var(--text2);margin-bottom:3px"><b>Context:</b> ${escHtml(h.context.slice(0,120))}${h.context.length>120?’…’:’’}</div>`: ''} ${h.notes ?`<div style="font-size:.72rem;color:var(--text1)"><b>Notes:</b> ${escHtml(h.notes)}</div>`: ''} ${h.coaching_output ?`<div style="font-size:.7rem;color:var(--text3);margin-top:4px;font-style:italic">Coach response saved ✓</div>`: ''} </div>`).join(’’);
 }
 
 // ─────────────────────────────────────────────
 // REVIEWS
 // ─────────────────────────────────────────────
 async function runReview(period) {
-  const out = document.getElementById('reviewOutput');
-  const content = document.getElementById('reviewOutputContent');
-  const title = document.getElementById('reviewOutputTitle');
-  out.style.display = 'block';
-  title.textContent = period === 'week' ? 'Weekly Review' : 'Monthly Review';
-  content.textContent = 'Analyzing your data...';
+const out = document.getElementById(‘reviewOutput’);
+const content = document.getElementById(‘reviewOutputContent’);
+const title = document.getElementById(‘reviewOutputTitle’);
+out.style.display = ‘block’;
+title.textContent = period === ‘week’ ? ‘Weekly Review’ : ‘Monthly Review’;
+content.textContent = ‘Analyzing your data…’;
 
-  // Gather data
-  const days = period === 'week' ? 7 : 30;
-  const cutoff = new Date();
-  cutoff.setDate(cutoff.getDate() - days);
-  const cutoffStr = cutoff.toISOString().slice(0,10);
-  const periodLogs = logs.filter(l => l.date >= cutoffStr);
-  const periodConvs = convHistory.filter(h => h.date >= cutoffStr);
-  const shipped = periodLogs.filter(l => l.shipped === 'YES').length;
-  const totalRO = periodLogs.reduce((s,l) => s + (l.reach_out_count||0), 0);
-  const totalSamples = periodLogs.reduce((s,l) => s + (l.samples_count||0), 0);
-  const totalSixW = periodLogs.reduce((s,l) => s + (l.sixw_count||0), 0);
-  const strengthDays = periodLogs.filter(l => l.strength).length;
-  const movDays = periodLogs.filter(l => l.movement).length;
-  const stageBreakdown = {};
-  prospects.forEach(p => { stageBreakdown[p.stage] = (stageBreakdown[p.stage]||0)+1; });
+// Gather data
+const days = period === ‘week’ ? 7 : 30;
+const cutoff = new Date();
+cutoff.setDate(cutoff.getDate() - days);
+const cutoffStr = cutoff.toISOString().slice(0,10);
+const periodLogs = logs.filter(l => l.date >= cutoffStr);
+const periodConvs = convHistory.filter(h => h.date >= cutoffStr);
+const shipped = periodLogs.filter(l => l.shipped === ‘YES’).length;
+const totalRO = periodLogs.reduce((s,l) => s + (l.reach_out_count||0), 0);
+const totalSamples = periodLogs.reduce((s,l) => s + (l.samples_count||0), 0);
+const totalSixW = periodLogs.reduce((s,l) => s + (l.sixw_count||0), 0);
+const strengthDays = periodLogs.filter(l => l.strength).length;
+const movDays = periodLogs.filter(l => l.movement).length;
+const stageBreakdown = {};
+prospects.forEach(p => { stageBreakdown[p.stage] = (stageBreakdown[p.stage]||0)+1; });
 
-  const prompt = `You are Evan's personal GU business coach. Review his ${period === 'week' ? 'last 7 days' : 'last 30 days'} of data and give him a powerful, specific, personalized review.
+const prompt = `You are Evan’s personal GU business coach. Review his ${period === ‘week’ ? ‘last 7 days’ : ‘last 30 days’} of data and give him a powerful, specific, personalized review.
 
 CONTEXT ABOUT EVAN:
+
 - Climate & Culture Coordinator / Dean of Students at a Chicago elementary school (first year in this role after 19 years teaching special ed)
 - GU Senior Mentor advancing toward Master Mentor (needs: 1 new direct mentor enrolled + support a current mentor to enroll someone)
 - Goal: $10,000/month income via GU within 1 year
 - Daily system: 5-3-1-6 (5 reach-outs, 3 samples, 1 six-W conversation)
-- "Give more to gain more" is his core philosophy
+- “Give more to gain more” is his core philosophy
 
 ${period.toUpperCase()} DATA SUMMARY:
+
 - Days logged: ${periodLogs.length} of ${days}
 - Days SHIPPED: ${shipped} of ${periodLogs.length}
 - Total Reach-Outs: ${totalRO} (goal: ${days === 7 ? 35 : 150})
@@ -1425,128 +1482,176 @@ ${period.toUpperCase()} DATA SUMMARY:
 - Total prospects: ${prospects.length}
 
 REFLECTIONS FROM LOGS:
-${periodLogs.filter(l=>l.reflection).slice(0,5).map(l=>`[${l.date}]: "${l.reflection}"`).join('\n') || 'None recorded'}
+${periodLogs.filter(l=>l.reflection).slice(0,5).map(l=>`[${l.date}]: "${l.reflection}"`).join(’\n’) || ‘None recorded’}
 
 Write a review with these sections:
-1. **Overall Assessment** — How was this ${period === 'week' ? 'week' : 'month'} in 2-3 sentences. Be honest and direct.
-2. **Strengths** — What Evan did well, with specific data points
-3. **Consistency Patterns** — What patterns (positive or negative) show up in the data
-4. **Areas of Growth** — 2-3 specific things to strengthen, with actionable guidance
-5. **Fitness & Wellbeing** — Brief note on physical consistency
-6. **Master Mentor Focus** — Specific guidance on moving toward Master Mentor this ${period === 'week' ? 'next week' : 'next month'}
-7. **Your One Priority** — The single most important thing to focus on in the next ${period === 'week' ? '7' : '30'} days
+
+1. **Overall Assessment** — How was this ${period === ‘week’ ? ‘week’ : ‘month’} in 2-3 sentences. Be honest and direct.
+1. **Strengths** — What Evan did well, with specific data points
+1. **Consistency Patterns** — What patterns (positive or negative) show up in the data
+1. **Areas of Growth** — 2-3 specific things to strengthen, with actionable guidance
+1. **Fitness & Wellbeing** — Brief note on physical consistency
+1. **Master Mentor Focus** — Specific guidance on moving toward Master Mentor this ${period === ‘week’ ? ‘next week’ : ‘next month’}
+1. **Your One Priority** — The single most important thing to focus on in the next ${period === ‘week’ ? ‘7’ : ‘30’} days
 
 Use strengths-based language. Be a coach who believes in Evan — direct, specific, never generic. Reference actual numbers from his data.`;
 
-  try {
-    const res = await fetch(CLAUDE_API, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{role:'user', content: prompt}]
-      })
-    });
-    const data = await res.json();
-    const text = data.content?.map(b => b.text||'').join('') || 'No response.';
-    content.textContent = text;
-  } catch(e) {
-    content.textContent = 'Error reaching Claude API. Check connection.';
-  }
+try {
+const res = await fetch(CLAUDE_API, {
+method: ‘POST’,
+headers: {
+‘Content-Type’: ‘application/json’,
+‘anthropic-version’: ‘2023-06-01’
+},
+body: JSON.stringify({
+model: ‘claude-sonnet-4-20250514’,
+max_tokens: 1000,
+messages: [{role:‘user’, content: prompt}]
+})
+});
+const data = await res.json();
+const text = data.content?.map(b => b.text||’’).join(’’) || ‘No response.’;
+content.textContent = text;
+} catch(e) {
+content.textContent = ‘Error reaching Claude API. Check connection.’;
+}
+}
+
+let savedReviews = [];
+
+async function saveReview() {
+const title = document.getElementById(‘reviewOutputTitle’).textContent;
+const content2 = document.getElementById(‘reviewOutputContent’).textContent;
+if (!content2 || content2 === ‘Analyzing your data…’) {
+showToast(‘Generate a review first’, ‘error’); return;
+}
+const entry = {
+date: getTodayStr(),
+period: title.includes(‘Weekly’) ? ‘week’ : ‘month’,
+title,
+content: content2
+};
+try {
+const res = await sb(‘reviews’, {
+method: ‘POST’, prefer: ‘return=representation’, body: JSON.stringify(entry)
+});
+savedReviews.unshift(Array.isArray(res) ? res[0] : entry);
+renderSavedReviews();
+showToast(‘Review saved!’, ‘success’);
+} catch(e) {
+showToast(‘Failed to save review’, ‘error’);
+}
+}
+
+async function loadSavedReviews() {
+try {
+savedReviews = await sb(‘reviews?order=date.desc&limit=20’);
+} catch(e) {
+console.error(‘loadSavedReviews:’, e);
+savedReviews = [];
+}
+renderSavedReviews();
+}
+
+function renderSavedReviews() {
+const c = document.getElementById(‘savedReviewsList’);
+if (!c) return;
+if (!savedReviews.length) {
+c.innerHTML = ‘<div style="color:var(--text3)">No saved reviews yet. Generate and save a weekly or monthly review above.</div>’;
+return;
+}
+c.innerHTML = savedReviews.map((r,i) => `<div style="border-bottom:1px solid var(--border);padding:10px 0"> <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="document.getElementById('rv-body-${i}').style.display=document.getElementById('rv-body-${i}').style.display==='none'?'block':'none'"> <div> <span style="font-weight:700;color:var(--text1);font-size:.82rem">${escHtml(r.title||'Review')}</span> <span style="margin-left:8px;font-size:.65rem;color:var(--text3)">${formatDateDisplay(r.date)}</span> </div> <span style="font-size:.7rem;color:var(--accent)">▼</span> </div> <div id="rv-body-${i}" style="display:none;margin-top:10px;font-size:.78rem;color:var(--text2);line-height:1.65;white-space:pre-wrap">${escHtml(r.content||'')}</div> </div>`).join(’’);
 }
 
 // ─────────────────────────────────────────────
 // MASTER MENTOR
 // ─────────────────────────────────────────────
 function setMasterStep(step, done) {
-  if (step === 1) masterSteps.s1 = done;
-  else masterSteps.s2 = done;
-  updateMasterUI();
-  localStorage.setItem('masterSteps', JSON.stringify(masterSteps));
+if (step === 1) masterSteps.s1 = done;
+else masterSteps.s2 = done;
+updateMasterUI();
+localStorage.setItem(‘masterSteps’, JSON.stringify(masterSteps));
 }
 
 function updateMasterUI() {
-  document.getElementById('ms1').classList.toggle('done', masterSteps.s1);
-  document.getElementById('ms2').classList.toggle('done', masterSteps.s2);
-  const count = (masterSteps.s1?1:0) + (masterSteps.s2?1:0);
-  document.getElementById('masterLabel').textContent = `${count}/2 steps`;
-  ['mm1yes','mm1no','mm2yes','mm2no'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.style.opacity = '0.5';
-  });
-  document.getElementById(masterSteps.s1 ? 'mm1yes' : 'mm1no').style.opacity = '1';
-  document.getElementById(masterSteps.s2 ? 'mm2yes' : 'mm2no').style.opacity = '1';
+document.getElementById(‘ms1’).classList.toggle(‘done’, masterSteps.s1);
+document.getElementById(‘ms2’).classList.toggle(‘done’, masterSteps.s2);
+const count = (masterSteps.s1?1:0) + (masterSteps.s2?1:0);
+document.getElementById(‘masterLabel’).textContent = `${count}/2 steps`;
+[‘mm1yes’,‘mm1no’,‘mm2yes’,‘mm2no’].forEach(id => {
+const el = document.getElementById(id);
+if (!el) return;
+el.style.opacity = ‘0.5’;
+});
+document.getElementById(masterSteps.s1 ? ‘mm1yes’ : ‘mm1no’).style.opacity = ‘1’;
+document.getElementById(masterSteps.s2 ? ‘mm2yes’ : ‘mm2no’).style.opacity = ‘1’;
 }
 
 // ─────────────────────────────────────────────
 // HELPERS
 // ─────────────────────────────────────────────
 function stageCSS(stage) {
-  const map = {
-    'New Lead':'stage-new','Sample Offered':'stage-sample','6-W Scheduled':'stage-sixw',
-    'Briefing Invited':'stage-briefing','Enrolled Mentor':'stage-mentor',
-    'Nurturing':'stage-nurture','Passed':'stage-pass'
-  };
-  return map[stage] || 'stage-new';
+const map = {
+‘New Lead’:‘stage-new’,‘Sample Offered’:‘stage-sample’,‘6-W Scheduled’:‘stage-sixw’,
+‘Briefing Invited’:‘stage-briefing’,‘Enrolled Mentor’:‘stage-mentor’,
+‘Nurturing’:‘stage-nurture’,‘Passed’:‘stage-pass’
+};
+return map[stage] || ‘stage-new’;
 }
 
 function warmthCSS(w) {
-  const map = {Hot:'warm-hot', Warm:'warm-warm', Cool:'warm-cool', Cold:'warm-cold'};
-  return map[w] || 'warm-warm';
+const map = {Hot:‘warm-hot’, Warm:‘warm-warm’, Cool:‘warm-cool’, Cold:‘warm-cold’};
+return map[w] || ‘warm-warm’;
 }
 
 function escHtml(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+return String(s||’’).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/”/g,’"’);
 }
 
 function formatShortDate(str) {
-  if (!str) return '';
-  const [y,m,d] = str.split('-').map(Number);
-  return new Date(y, m-1, d).toLocaleDateString('en-US', {month:'short', day:'numeric'});
+if (!str) return ‘’;
+const [y,m,d] = str.split(’-’).map(Number);
+return new Date(y, m-1, d).toLocaleDateString(‘en-US’, {month:‘short’, day:‘numeric’});
 }
 
-function showToast(msg, type='') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast show ' + type;
-  setTimeout(() => { t.className = 'toast ' + type; }, 2800);
+function showToast(msg, type=’’) {
+const t = document.getElementById(‘toast’);
+t.textContent = msg;
+t.className = ’toast show ’ + type;
+setTimeout(() => { t.className = ’toast ’ + type; }, 2800);
 }
 
 // ─────────────────────────────────────────────
 // INIT
 // ─────────────────────────────────────────────
 async function init() {
-  // Set today's date
-  const today = getTodayStr();
-  document.getElementById('logDatePicker').value = today;
-  document.getElementById('logDateDisplay').textContent = formatDateDisplay(today);
+// Set today’s date
+const today = getTodayStr();
+document.getElementById(‘logDatePicker’).value = today;
+document.getElementById(‘logDateDisplay’).textContent = formatDateDisplay(today);
 
-  // Load master steps from localStorage
-  try {
-    const ms = JSON.parse(localStorage.getItem('masterSteps') || '{}');
-    masterSteps.s1 = !!ms.s1;
-    masterSteps.s2 = !!ms.s2;
-  } catch(e) {}
-  updateMasterUI();
+// Load master steps from localStorage
+try {
+const ms = JSON.parse(localStorage.getItem(‘masterSteps’) || ‘{}’);
+masterSteps.s1 = !!ms.s1;
+masterSteps.s2 = !!ms.s2;
+} catch(e) {}
+updateMasterUI();
 
-  // Load data
-  await Promise.all([loadLogs(), loadProspects(), loadConvHistory()]);
+// Load data
+await Promise.all([loadLogs(), loadProspects(), loadConvHistory(), loadSavedReviews()]);
 
-  // Load today's log if exists
-  const todayLog = logs.find(l => l.date === today);
-  if (todayLog) currentLog = JSON.parse(JSON.stringify(todayLog));
-  else currentLog = freshLog(today);
+// Load today’s log if exists
+const todayLog = logs.find(l => l.date === today);
+if (todayLog) currentLog = JSON.parse(JSON.stringify(todayLog));
+else currentLog = freshLog(today);
 
-  renderLogForm();
-  renderStats();
+renderLogForm();
+renderStats();
 }
 
 init();
 </script>
+
 </body>
 </html>
