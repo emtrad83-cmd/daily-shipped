@@ -58,56 +58,35 @@ const CHECKS = [
   { key: "learn", label: "Lifelong learning / reflection", goal: "happiness", points: 1 },
 ];
 
-const pipelineStages = [
-  {
-    name: "New Prospect",
-    description: "Just connected, no real conversation yet",
-  },
-  {
-    name: "Nurturing",
-    description: "Building rapport and surfacing tension",
-  },
-  {
-    name: "Sample",
-    description: "10 day GIVERwater trial in their hands",
-  },
-  {
-    name: "6-W Conversation",
-    description: "Deeper discovery conversation",
-  },
-  {
-    name: "Patron Preso",
-    description: "Patron presentation",
-  },
-  {
-    name: "Open Account",
-    description: "Account being set up",
-  },
-  {
-    name: "Trial",
-    description: "In trial period",
-  },
-  {
-    name: "Briefing",
-    description: "GU briefing attended",
-  },
-  {
-    name: "Saturday",
-    description: "Saturday training",
-  },
-  {
-    name: "MAP",
-    description: "MAP & Samples training",
-  },
-  {
-    name: "Interview",
-    description: "1 on 1 interview",
-  },
-  {
-    name: "Passed",
-    description: "Accepted into GU",
-  },
+const STAGES = [
+  "New Prospect",
+  "Nurturing",
+  "Sample",
+  "6-W Conversation",
+  "Patron Preso",
+  "Open Account",
+  "Trial",
+  "Briefing",
+  "Saturday",
+  "MAP",
+  "Interview",
+  "Passed",
 ];
+
+const STAGE_DESCRIPTIONS = {
+  "New Prospect": "Just connected, no real conversation yet",
+  "Nurturing": "Building rapport and surfacing tension",
+  "Sample": "10 day GIVERwater trial in their hands",
+  "6-W Conversation": "Deeper discovery conversation",
+  "Patron Preso": "Patron presentation",
+  "Open Account": "Account being set up",
+  "Trial": "In trial period",
+  "Briefing": "GU briefing attended",
+  "Saturday": "Saturday training",
+  "MAP": "MAP & Samples training",
+  "Interview": "1 on 1 interview",
+  "Passed": "Accepted into GU",
+};
 
 const PRIORITY_BANK = [
   {
@@ -327,7 +306,7 @@ export default function App() {
   const [tab, setTab] = useState("dashboard");
   const [newProspect, setNewProspect] = useState({
     name: "",
-    stage: "New",
+    stage: "New Prospect",
     next: "",
     tension: "",
   });
@@ -773,7 +752,9 @@ export default function App() {
                   onChange={(e) => setNewProspect({ ...newProspect, stage: e.target.value })}
                 >
                   {STAGES.map((s) => (
-                    <option key={s}>{s}</option>
+                    <option key={s} value={s}>
+                      {s} — {STAGE_DESCRIPTIONS[s]}
+                    </option>
                   ))}
                 </select>
 
@@ -810,7 +791,12 @@ export default function App() {
                     ],
                   }));
 
-                  setNewProspect({ name: "", stage: "New", next: "", tension: "" });
+                  setNewProspect({
+                    name: "",
+                    stage: "New Prospect",
+                    next: "",
+                    tension: "",
+                  });
                 }}
               >
                 Add Prospect
@@ -823,6 +809,10 @@ export default function App() {
                   {p.name}
                   <span className="badge">{p.stage}</span>
                 </div>
+
+                <p className="section-sub">
+                  <strong>Stage Meaning:</strong> {STAGE_DESCRIPTIONS[p.stage] || "—"}
+                </p>
 
                 <p className="section-sub">
                   <strong>Tension:</strong> {p.tension || "—"}
