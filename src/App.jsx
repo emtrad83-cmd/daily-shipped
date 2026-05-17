@@ -75,17 +75,17 @@ const STAGES = [
 
 const STAGE_DESCRIPTIONS = {
   "New Prospect": "Just connected, no real conversation yet",
-  "Nurturing": "Building rapport and surfacing tension",
-  "Sample": "10 day GIVERwater trial in their hands",
+  Nurturing: "Building rapport and surfacing tension",
+  Sample: "10 day GIVERwater trial in their hands",
   "6-W Conversation": "Deeper discovery conversation",
   "Patron Preso": "Patron presentation",
   "Open Account": "Account being set up",
-  "Trial": "In trial period",
-  "Briefing": "GU briefing attended",
-  "Saturday": "Saturday training",
-  "MAP": "MAP & Samples training",
-  "Interview": "1 on 1 interview",
-  "Passed": "Accepted into GU",
+  Trial: "In trial period",
+  Briefing: "GU briefing attended",
+  Saturday: "Saturday training",
+  MAP: "MAP & Samples training",
+  Interview: "1 on 1 interview",
+  Passed: "Accepted into GU",
 };
 
 const PRIORITY_BANK = [
@@ -320,6 +320,30 @@ export default function App() {
       const next = typeof updater === "function" ? updater(current) : updater;
       return { ...s, logs: { ...s.logs, [date]: next } };
     });
+  };
+
+  const updateProspect = (id, updates) => {
+    setState((s) => ({
+      ...s,
+      prospects: s.prospects.map((p) =>
+        p.id === id ? { ...p, ...updates, updated: todayISO() } : p
+      ),
+    }));
+  };
+
+  const moveProspect = (id, currentStage, direction) => {
+    const safeStage = STAGES.includes(currentStage) ? currentStage : "New Prospect";
+    const index = STAGES.indexOf(safeStage);
+    const nextIndex = Math.max(0, Math.min(STAGES.length - 1, index + direction));
+
+    updateProspect(id, { stage: STAGES[nextIndex] });
+  };
+
+  const deleteProspect = (id) => {
+    setState((s) => ({
+      ...s,
+      prospects: s.prospects.filter((p) => p.id !== id),
+    }));
   };
 
   useEffect(() => {
@@ -803,26 +827,87 @@ export default function App() {
               </button>
             </section>
 
-            {state.prospects.map((p) => (
-              <section className="prospect" key={p.id}>
-                <div className="prospect-name">
-                  {p.name}
-                  <span className="badge">{p.stage}</span>
-                </div>
+            {state.prospects.map((p) => {
+              const currentStage = STAGES.includes(p.stage) ? p.stage : "New Prospect";
 
-                <p className="section-sub">
-                  <strong>Stage Meaning:</strong> {STAGE_DESCRIPTIONS[p.stage] || "—"}
-                </p>
+              return (
+                <section className="prospect" key={p.id}>
+                  <div className="prospect-name">
+                    {p.name}
+                    <span className="badge">{currentStage}</span>
+                  </div>
 
-                <p className="section-sub">
-                  <strong>Tension:</strong> {p.tension || "—"}
-                </p>
+                  <p className="section-sub">
+                    <strong>Stage Meaning:</strong>{" "}
+                    {STAGE_DESCRIPTIONS[currentStage] || "—"}
+                  </p>
 
-                <p className="section-sub">
-                  <strong>Next:</strong> {p.next || "—"}
-                </p>
-              </section>
-            ))}
+                  <div className="grid alignment-grid" style={{ marginTop: 12 }}>
+                    <div>
+                      <label className="label">Pipeline Stage</label>
+                      <select
+                        className="input"
+                        value={currentStage}
+                        onChange={(e) => updateProspect(p.id, { stage: e.target.value })}
+                      >
+                        {STAGES.map((s) => (
+                          <option key={s} value={s}>
+                            {s}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="label">Next Step</label>
+                      <input
+                        className="input"
+                        value={p.next || ""}
+                        placeholder="What is the next aligned step?"
+                        onChange={(e) => updateProspect(p.id, { next: e.target.value })}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="label">Tension Point</label>
+                      <input
+                        className="input"
+                        value={p.tension || ""}
+                        placeholder="What tension or desire has surfaced?"
+                        onChange={(e) => updateProspect(p.id, { tension: e.target.value })}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="energy-row" style={{ marginTop: 14 }}>
+                    <button
+                      className="btn"
+                      onClick={() => moveProspect(p.id, currentStage, -1)}
+                    >
+                      Move Back
+                    </button>
+
+                    <button
+                      className="btn primary"
+                      onClick={() => moveProspect(p.id, currentStage, 1)}
+                    >
+                      Move Forward
+                    </button>
+
+                    <button
+                      className="btn"
+                      onClick={() => deleteProspect(p.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+
+                  <p className="section-sub" style={{ marginTop: 10 }}>
+                    <strong>Last Updated:</strong> {p.updated || "—"}
+                  </p>
+                </section>
+              );
+            })}
           </div>
         )}
 
