@@ -58,7 +58,56 @@ const CHECKS = [
   { key: "learn", label: "Lifelong learning / reflection", goal: "happiness", points: 1 },
 ];
 
-const STAGES = ["New", "Curious", "Sample", "6-W", "Patron", "Mentor", "Nurture", "Passed"];
+const pipelineStages = [
+  {
+    name: "New Prospect",
+    description: "Just connected, no real conversation yet",
+  },
+  {
+    name: "Nurturing",
+    description: "Building rapport and surfacing tension",
+  },
+  {
+    name: "Sample",
+    description: "10 day GIVERwater trial in their hands",
+  },
+  {
+    name: "6-W Conversation",
+    description: "Deeper discovery conversation",
+  },
+  {
+    name: "Patron Preso",
+    description: "Patron presentation",
+  },
+  {
+    name: "Open Account",
+    description: "Account being set up",
+  },
+  {
+    name: "Trial",
+    description: "In trial period",
+  },
+  {
+    name: "Briefing",
+    description: "GU briefing attended",
+  },
+  {
+    name: "Saturday",
+    description: "Saturday training",
+  },
+  {
+    name: "MAP",
+    description: "MAP & Samples training",
+  },
+  {
+    name: "Interview",
+    description: "1 on 1 interview",
+  },
+  {
+    name: "Passed",
+    description: "Accepted into GU",
+  },
+];
 
 const PRIORITY_BANK = [
   {
